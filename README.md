@@ -14,3 +14,17 @@ Key points to this project:
 
 ## More Notes
 - Search for teams in Photoshop using regex. `(/\bTERMHERE/\b)`
+
+## Pseudo code???
+This is not real code. It's just a  basic roadmap on what to probably do.
+
+`$("#generate").click(function()){
+    var paletteArray = teamArr.findByValue($(userChoice));
+    app.activeDocument.colors.item("Primary Color").value= paletteArray.col1;
+    app.activeDocument.colors.item("Secondary Color").value= paletteArray.col2;
+    app.activeDocument.colors.item("Tertiary Color").value= paletteArray.col3;
+}
+
+... Then do whatever is needed to open up Photoshop.
+
+`

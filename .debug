@@ -6,36 +6,35 @@
             <!-- Comment Host tags according to the apps you want your panel to support -->
             
             <!-- Photoshop -->
-            <Host Name="PHXS" Port="8088"/>
+            <!-- <Host Name="PHXS" Port="8088"/> -->
             
             <!-- Illustrator -->
-            <Host Name="ILST" Port="8089"/>
+            <!-- <Host Name="ILST" Port="8089"/> -->
 
             <!-- InDesign -->
-            <Host Name="IDSN" Port="8090" />
+            <Host Name="IDSN" Port="8080" />
             
             <!-- InCopy -->
-            <Host Name="AICY" Port="8091" />
+            <!-- <Host Name="AICY" Port="8091" /> -->
             
             <!-- Premiere -->
-            <Host Name="PPRO" Port="8092" />
+            <!-- <Host Name="PPRO" Port="8092" /> -->
             
             <!-- AfterEffects -->
-            <Host Name="AEFT" Port="8093" />
+            <!-- <Host Name="AEFT" Port="8093" /> -->
             
             <!-- Prelude -->
-            <Host Name="PRLD" Port="8094" />
+            <!-- <Host Name="PRLD" Port="8094" /> -->
             
             <!-- Animate -->
-            <Host Name="FLPR" Port="8095" />
+            <!-- <Host Name="FLPR" Port="8095" /> -->
             
             <!-- Audition -->
-            <Host Name="AUDT" Port="8096" />
+            <!-- <Host Name="AUDT" Port="8096" /> -->
             
             <!-- Dreamweaver -->
-            <Host Name="DRWV" Port="8097" />
+            <!-- <Host Name="DRWV" Port="8097" /> -->
                         
         </HostList>
     </Extension>
 </ExtensionList>
- 

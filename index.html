@@ -39,16 +39,15 @@ Code for Import https://scriptui.joonas.me — (Triple click to select):
                 <div class="panel orientation-column align-children-horizontal-left align-children-vertical-top alignment-horizontal-fill alignment-vertical-fill" data-parent="true" data-item-type="panel" data-item-id="10" data-item-parent-id="0" style="min-width: auto; min-height: auto;" data-item-name="panel1"><span class="title" contenteditable="false">Player Team</span>
                     <div class="padding-box" style="min-width: 92.2266px; padding: 10px;">
                         <div class="dropdownlist alignment-horizontal-fill alignment-vertical-fill" data-item-type="dropdownlist" data-item-id="2" data-item-parent-id="0" style="min-width: auto; min-height: auto;" data-item-name="TeamChoose">
-                            <div class="drop-list-wrap">
-                                <div class="items" id="teams">
-                                    <div class=" selected test" style="width: 35.9453px;" disabled>Pick One...</div>
-                                    <div class=" horizontal-line" style="width: 35.9453px;" disabled>-</div>
-                                </div>
+                            <select class="items" id="teams">
+                            </select>
+                            <!-- <div class="drop-list-wrap">
+                                
                                 <div class="arrow">
                                     <svg class="font-awesome-chevron-down" enable-background="new 0 0 436.7 265" viewBox="0 0 436.7 265" xmlns="http://www.w3.org/2000/svg">
                                         <path d="m201.4 258-194.4-194.4c-9.4-9.4-9.4-24.6 0-33.9l22.7-22.7c9.4-9.4 24.5-9.4 33.9 0l154.7 154 154.8-154c9.4-9.3 24.5-9.3 33.9 0l22.7 22.7c9.4 9.4 9.4 24.6 0 33.9l-194.4 194.4c-9.4 9.4-24.6 9.4-33.9 0z" fill="#d6d6d6"></path>
                                     </svg>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -60,7 +59,7 @@ Code for Import https://scriptui.joonas.me — (Triple click to select):
                 </div>
                 <div class="panel orientation-column align-children-horizontal-left align-children-vertical-top alignment-horizontal-fill alignment-vertical-fill" data-parent="true" data-item-type="panel" data-item-id="9" data-item-parent-id="7" style="min-width: auto; min-height: auto;" data-item-name="panel2"><span class="title" contenteditable="false">Jersey Number</span>
                     <div class="padding-box" style="min-width: 108.586px; padding: 10px;">
-                        <div class="edit-text disable-soft-wrap justify-left alignment-horizontal-fill alignment-vertical-fill" data-item-type="edittext" data-item-id="4" data-item-parent-id="0" style="min-width: auto; min-height: auto; width: auto; height: auto;" data-item-name="edittext1"><span class="edit-text-inner-wrap"><span class="text-container edittext-text-cont" contenteditable="true" style="">23</span></span></div>
+                        <div class="edit-text disable-soft-wrap justify-left alignment-horizontal-fill alignment-vertical-fill" data-item-type="edittext" data-item-id="4" data-item-parent-id="0" style="min-width: auto; min-height: auto; width: auto; height: auto;" data-item-name="edittext1"><span class="edit-text-inner-wrap"><span class="text-container edittext-text-cont" contenteditable="true" id="teamNumber" style="color:white;">23</span></span></div>
                     </div>
                     <style class="spacing">
                         #dialog [data-item-id="9"].orientation-row > .padding-box > div:not(.sdb-hidden) {padding-left: 0px;}
@@ -70,7 +69,7 @@ Code for Import https://scriptui.joonas.me — (Triple click to select):
                 </div>
                 <div class="panel orientation-column align-children-horizontal-left align-children-vertical-top alignment-horizontal-fill alignment-vertical-fill" data-parent="true" data-item-type="panel" data-item-id="12" data-item-parent-id="0" style="min-width: auto; min-height: auto;" data-item-name="panel3"><span class="title" contenteditable="false">Team Name (If Applicable)</span>
                     <div class="padding-box" style="min-width: 172.555px; padding: 10px;">
-                        <div class="edit-text disable-soft-wrap justify-left alignment-horizontal-fill alignment-vertical-fill" data-item-type="edittext" data-item-id="13" data-item-parent-id="12" style="min-width: auto; min-height: auto; width: auto; height: auto;" data-item-name="edittext2"><span class="edit-text-inner-wrap"><span class="text-container edittext-text-cont" contenteditable="true" style="">Mail Shark</span></span></div>
+                        <div class="edit-text disable-soft-wrap justify-left alignment-horizontal-fill alignment-vertical-fill" data-item-type="edittext" data-item-id="13" data-item-parent-id="12" style="min-width: auto; min-height: auto; width: auto; height: auto;" data-item-name="edittext2"><span class="edit-text-inner-wrap"><span class="text-container edittext-text-cont" contenteditable="true" id="teamName" style="color:white;">Mail Shark</span></span></div>
                     </div>
                     <style class="spacing">
                         #dialog [data-item-id="12"].orientation-row > .padding-box > div:not(.sdb-hidden) {padding-left: 0px;}
@@ -102,7 +101,7 @@ Code for Import https://scriptui.joonas.me — (Triple click to select):
                     </style>
                 </div>
                 <div class="button justify-center" data-item-type="button" data-item-id="14" data-item-parent-id="0" style="min-width: auto; min-height: auto;" data-item-name="button1">
-                    <span class="text-container" contenteditable="false">Generate Schedule</span>
+                    <span class="text-container" contenteditable="false" id="generate">Generate Schedule</span>
                 </div>
             </div>
             <style class="spacing">
@@ -167,7 +166,7 @@ Code for Import https://scriptui.joonas.me — (Triple click to select):
         {name:"Washington Commanders",  val: "Washington",      col1: "5A1414",     col2: "FFB612",     col3: "C6C8CA"}
     ]
     for (i in footballTeams){
-        $("#teams").append(`<div class="" style="width: 35.9453px;">${footballTeams[i].name}</div>`);
+        $("#teams").append(`<option class="" style="width: 35.9453px;">${footballTeams[i].name}</option>`);
     }
 </script>
 </html>

@@ -10,3 +10,8 @@ function sayHello(){
 function changeColour(type, c,m,y,k){
     app.activeDocument.colors.item(type+ " Color").colorValue = [parseInt(c),parseInt(m),parseInt(y),parseInt(k)]; // CMYK. Hardcode: [100,50,0,0]
 }
+
+function addSchedule(){
+    app.panels.item("data merge").visible = true;
+    // selectDataSource(dataSourceFile:File)
+}

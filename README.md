@@ -11,6 +11,7 @@ Key points to this project:
         - The dropdown on the extension needs to have an ID matching the team's name in the photoshop action, and then in parenthesis will be the front/back/helmet choice as IDs for those too. We'll pass a concatenated string to Photoshop to choose the *exact* action they need.
 - No time limit, but try to work in sprints.
 - Testing Method: Guerilla Testing. Just beat the snot out of the program to find the bugs-- Shouldn't be too hard for them to arise.
+- Rewrite index.html
 
 ## More Notes
 - Search for teams in Photoshop using regex. `(/\bTERMHERE/\b)`

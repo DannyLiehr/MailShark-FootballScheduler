@@ -1,0 +1,1 @@
+tell application "Adobe Photoshop 2023" to activate

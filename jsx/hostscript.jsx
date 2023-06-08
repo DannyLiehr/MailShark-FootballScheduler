@@ -8,10 +8,22 @@ function sayHello(){
 
 // three functions because the arguments on mainjs would look insane
 function changeColour(type, c,m,y,k){
-    app.activeDocument.colors.item(type+ " Color").colorValue = [parseInt(c),parseInt(m),parseInt(y),parseInt(k)]; // CMYK. Hardcode: [100,50,0,0]
+    try{
+        app.activeDocument.colors.item(type+ " Color").colorValue = [parseInt(c),parseInt(m),parseInt(y),parseInt(k)]; // CMYK. Hardcode: [100,50,0,0]
+    } catch (e){
+        alert("No swatch found for: " + type + " Color.")
+    }
+    
 }
 
-function addSchedule(){
-    app.panels.item("data merge").visible = true;
+function addSchedule(path){
+    try{
+      app.activeDocument.dataMergeProperties.removeDataSource();  
+      app.activeDocument.dataMergeProperties.selectDataSource(path);  
+    //   File("../launchPS.scpt").execute();
+    } catch(e){
+        alert(e);
+    }
     // selectDataSource(dataSourceFile:File)
 }
+

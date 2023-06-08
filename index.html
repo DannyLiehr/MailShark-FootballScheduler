@@ -4,119 +4,46 @@
 <meta charset="utf-8">
         
 <link id="ccstyleTheme" href="css/styles-dark.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="node_modules/@spectrum-css/vars/dist/spectrum-global.css">
+<link rel="stylesheet" href="node_modules/@spectrum-css/vars/dist/spectrum-medium.css">
+<link rel="stylesheet" href="node_modules/@spectrum-css/vars/dist/spectrum-light.css">
+<link rel="stylesheet" href="node_modules/@spectrum-css/page/dist/index-vars.css">
+<link rel="stylesheet" href="node_modules/@spectrum-css/button/dist/index-vars.css">
 <link id="hostStyle" rel="stylesheet" href="css/styles.css"/>
-
 <title>Football Scheduler</title>
 <!-- 
 Code for Import https://scriptui.joonas.me — (Triple click to select): 
 {"activeId":0,"items":{"item-0":{"id":0,"type":"Dialog","parentId":false,"style":{"enabled":true,"varName":"FootballScheduler","windowType":"Window","creationProps":{"su1PanelCoordinates":false,"maximizeButton":false,"minimizeButton":false,"independent":false,"closeButton":true,"borderless":false,"resizeable":false},"text":"Football Scheduler","preferredSize":[186,0],"margins":16,"orientation":"column","spacing":10,"alignChildren":["center","top"]}},"item-2":{"id":2,"type":"DropDownList","parentId":10,"style":{"enabled":true,"varName":"TeamChoose","text":"DropDownList","listItems":"Item 1, -,Item 2, Item 3","preferredSize":[0,0],"alignment":"fill","selection":0,"helpTip":null}},"item-4":{"id":4,"type":"EditText","parentId":9,"style":{"enabled":true,"varName":null,"creationProps":{"noecho":false,"readonly":false,"multiline":false,"scrollable":false,"borderless":false,"enterKeySignalsOnChange":false},"softWrap":false,"text":"23","justify":"left","preferredSize":[0,0],"alignment":"fill","helpTip":null}},"item-8":{"id":8,"type":"Panel","parentId":0,"style":{"enabled":true,"varName":null,"creationProps":{"borderStyle":"etched","su1PanelCoordinates":false},"text":"Image Mode","preferredSize":[0,0],"margins":10,"orientation":"column","spacing":10,"alignChildren":["left","top"],"alignment":"fill"}},"item-9":{"id":9,"type":"Panel","parentId":0,"style":{"enabled":true,"varName":null,"creationProps":{"borderStyle":"etched","su1PanelCoordinates":false},"text":"Jersey Number","preferredSize":[0,0],"margins":10,"orientation":"column","spacing":10,"alignChildren":["left","top"],"alignment":"fill"}},"item-10":{"id":10,"type":"Panel","parentId":0,"style":{"enabled":true,"varName":null,"creationProps":{"borderStyle":"etched","su1PanelCoordinates":false},"text":"Player Team","preferredSize":[0,0],"margins":10,"orientation":"column","spacing":10,"alignChildren":["left","top"],"alignment":"fill"}},"item-11":{"id":11,"type":"DropDownList","parentId":8,"style":{"enabled":true,"varName":null,"text":"DropDownList","listItems":"Front Player, Back Player, Helmet","preferredSize":[0,0],"alignment":"fill","selection":0,"helpTip":null}},"item-12":{"id":12,"type":"Panel","parentId":0,"style":{"enabled":true,"varName":"","creationProps":{"borderStyle":"etched","su1PanelCoordinates":false},"text":"Team Name (If Applicable)","preferredSize":[0,0],"margins":10,"orientation":"column","spacing":10,"alignChildren":["left","top"],"alignment":"fill"}},"item-13":{"id":13,"type":"EditText","parentId":12,"style":{"enabled":true,"varName":null,"creationProps":{"noecho":false,"readonly":false,"multiline":false,"scrollable":false,"borderless":false,"enterKeySignalsOnChange":false},"softWrap":false,"text":"Mail Shark","justify":"left","preferredSize":[0,0],"alignment":"fill","helpTip":null}},"item-14":{"id":14,"type":"Button","parentId":0,"style":{"enabled":true,"varName":null,"text":"Generate Schedule","justify":"center","preferredSize":[0,0],"alignment":null,"helpTip":null}}},"order":[0,10,2,9,4,12,13,8,11,14],"settings":{"importJSON":true,"indentSize":false,"cepExport":true,"includeCSSJS":true,"showDialog":true,"functionWrapper":false,"afterEffectsDockable":false,"itemReferenceList":"None"}}
 --> 
 
-<style>
-    html, body { margin: 0; height: 100%; background: #535353; } 
-    #dialog { color: transparent; } 
-    #dialog svg { display: none; } 
-    ::-webkit-scrollbar { width: 2px; height: 2px; } 
-    ::-webkit-scrollbar-button { width: 0px; height: 0px; } 
-    ::-webkit-scrollbar-thumb { background: #a0a0a0; border-radius: 50px; display: none; } 
-    ::-webkit-scrollbar-corner { background: transparent; } 
-    *:hover::-webkit-scrollbar-thumb { display: block; } 
-    body::-webkit-scrollbar-track { background: #535353; } 
-</style>
 </head>
 
-<body require-nodejs class="hostElt">
+<body require-nodejs style="padding: .5em;">
+    <form class="spectrum-Form spectrum-Form--labelsAbove">
+        <label for="teams" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Football Team </label>
+                <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="teams">
+                    <span class="spectrum-Picker-label is-placeholder">Select a Team</span>
+                </select>
+                
+                <hr class="spectrum-Divider spectrum-Divider--sizeM">
 
-    <div id="dialog" class="cep-mode">
-        <div id="dialog-container" data-parent="true" data-item-type="dialog" data-item-id="0" data-item-parent-id="false" class="orientation-column align-children-horizontal-center align-children-vertical-top" style="min-width: 186px; min-height: auto;" data-item-name="FootballScheduler">
-            <style class="soft-wrap-guard">
-                #dialog [data-item-id="0"] .edit-text, 
-                #dialog [data-item-id="0"] .static-text {max-width: 186px;}
-                #dialog [data-item-id="0"] .edit-text.disable-soft-wrap, 
-                #dialog [data-item-id="0"] .static-text.disable-soft-wrap {max-width: none;}
-            </style>
-            <div class="padding-box" style="padding: 16px;">
-                <div class="panel orientation-column align-children-horizontal-left align-children-vertical-top alignment-horizontal-fill alignment-vertical-fill" data-parent="true" data-item-type="panel" data-item-id="10" data-item-parent-id="0" style="min-width: auto; min-height: auto;" data-item-name="panel1"><span class="title" contenteditable="false">Player Team</span>
-                    <div class="padding-box" style="min-width: 92.2266px; padding: 10px;">
-                        <div class="dropdownlist alignment-horizontal-fill alignment-vertical-fill" data-item-type="dropdownlist" data-item-id="2" data-item-parent-id="0" style="min-width: auto; min-height: auto;" data-item-name="TeamChoose">
-                            <select class="items" id="teams">
-                            </select>
-                            <!-- <div class="drop-list-wrap">
-                                
-                                <div class="arrow">
-                                    <svg class="font-awesome-chevron-down" enable-background="new 0 0 436.7 265" viewBox="0 0 436.7 265" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="m201.4 258-194.4-194.4c-9.4-9.4-9.4-24.6 0-33.9l22.7-22.7c9.4-9.4 24.5-9.4 33.9 0l154.7 154 154.8-154c9.4-9.3 24.5-9.3 33.9 0l22.7 22.7c9.4 9.4 9.4 24.6 0 33.9l-194.4 194.4c-9.4 9.4-24.6 9.4-33.9 0z" fill="#d6d6d6"></path>
-                                    </svg>
-                                </div> -->
-                            </div>
-                        </div>
-                    </div>
-                    <style class="spacing">
-                        #dialog [data-item-id="10"].orientation-row > .padding-box > div:not(.sdb-hidden) {padding-left: 0px;}
-                        #dialog [data-item-id="10"].orientation-row > .padding-box > div:not(.sdb-hidden) ~ div:not(.sdb-hidden) {padding-left: 10px;}
-                        #dialog [data-item-id="10"].orientation-column > .padding-box > div:not(.sdb-hidden) {padding-top: 0px;}#dialog [data-item-id="10"].orientation-column > .padding-box > div:not(.sdb-hidden) ~ div:not(.sdb-hidden) {padding-top: 10px;}
-                    </style>
-                </div>
-                <div class="panel orientation-column align-children-horizontal-left align-children-vertical-top alignment-horizontal-fill alignment-vertical-fill" data-parent="true" data-item-type="panel" data-item-id="9" data-item-parent-id="7" style="min-width: auto; min-height: auto;" data-item-name="panel2"><span class="title" contenteditable="false">Jersey Number</span>
-                    <div class="padding-box" style="min-width: 108.586px; padding: 10px;">
-                        <div class="edit-text disable-soft-wrap justify-left alignment-horizontal-fill alignment-vertical-fill" data-item-type="edittext" data-item-id="4" data-item-parent-id="0" style="min-width: auto; min-height: auto; width: auto; height: auto;" data-item-name="edittext1"><span class="edit-text-inner-wrap"><span class="text-container edittext-text-cont" contenteditable="true" id="teamNumber" style="color:white;">23</span></span></div>
-                    </div>
-                    <style class="spacing">
-                        #dialog [data-item-id="9"].orientation-row > .padding-box > div:not(.sdb-hidden) {padding-left: 0px;}
-                        #dialog [data-item-id="9"].orientation-row > .padding-box > div:not(.sdb-hidden) ~ div:not(.sdb-hidden) {padding-left: 12px;}
-                        #dialog [data-item-id="9"].orientation-column > .padding-box > div:not(.sdb-hidden) {padding-top: 0px;}#dialog [data-item-id="9"].orientation-column > .padding-box > div:not(.sdb-hidden) ~ div:not(.sdb-hidden) {padding-top: 12px;}
-                    </style>
-                </div>
-                <div class="panel orientation-column align-children-horizontal-left align-children-vertical-top alignment-horizontal-fill alignment-vertical-fill" data-parent="true" data-item-type="panel" data-item-id="12" data-item-parent-id="0" style="min-width: auto; min-height: auto;" data-item-name="panel3"><span class="title" contenteditable="false">Team Name (If Applicable)</span>
-                    <div class="padding-box" style="min-width: 172.555px; padding: 10px;">
-                        <div class="edit-text disable-soft-wrap justify-left alignment-horizontal-fill alignment-vertical-fill" data-item-type="edittext" data-item-id="13" data-item-parent-id="12" style="min-width: auto; min-height: auto; width: auto; height: auto;" data-item-name="edittext2"><span class="edit-text-inner-wrap"><span class="text-container edittext-text-cont" contenteditable="true" id="teamName" style="color:white;">Mail Shark</span></span></div>
-                    </div>
-                    <style class="spacing">
-                        #dialog [data-item-id="12"].orientation-row > .padding-box > div:not(.sdb-hidden) {padding-left: 0px;}
-                        #dialog [data-item-id="12"].orientation-row > .padding-box > div:not(.sdb-hidden) ~ div:not(.sdb-hidden) {padding-left: 10px;}
-                        #dialog [data-item-id="12"].orientation-column > .padding-box > div:not(.sdb-hidden) {padding-top: 0px;}#dialog [data-item-id="12"].orientation-column > .padding-box > div:not(.sdb-hidden) ~ div:not(.sdb-hidden) {padding-top: 10px;}
-                    </style>
-                </div>
-                <div class="panel orientation-column align-children-horizontal-left align-children-vertical-top alignment-horizontal-fill alignment-vertical-fill" data-parent="true" data-item-type="panel" data-item-id="8" data-item-parent-id="7" style="min-width: auto; min-height: auto;" data-item-name="panel4"><span class="title" contenteditable="false">Image Mode</span>
-                    <div class="padding-box" style="min-width: 91.7109px; padding: 10px;">
-                        <div class="dropdownlist alignment-horizontal-fill alignment-vertical-fill" data-item-type="dropdownlist" data-item-id="11" data-item-parent-id="8" style="min-width: auto; min-height: auto;" data-item-name="dropdown1">
-                            <div class="drop-list-wrap">
-                                <div class="items">
-                                    <div class=" selected test" style="width: 69.9531px;">Front Player</div>
-                                    <div class="" style="width: 69.9531px;">Back Player</div>
-                                    <div class="" style="width: 69.9531px;">Helmet</div>
-                                </div>
-                                <div class="arrow">
-                                    <svg class="font-awesome-chevron-down" enable-background="new 0 0 436.7 265" viewBox="0 0 436.7 265" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="m201.4 258-194.4-194.4c-9.4-9.4-9.4-24.6 0-33.9l22.7-22.7c9.4-9.4 24.5-9.4 33.9 0l154.7 154 154.8-154c9.4-9.3 24.5-9.3 33.9 0l22.7 22.7c9.4 9.4 9.4 24.6 0 33.9l-194.4 194.4c-9.4 9.4-24.6 9.4-33.9 0z" fill="#d6d6d6"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <style class="spacing">
-                        #dialog [data-item-id="8"].orientation-row > .padding-box > div:not(.sdb-hidden) {padding-left: 0px;}
-                        #dialog [data-item-id="8"].orientation-row > .padding-box > div:not(.sdb-hidden) ~ div:not(.sdb-hidden) {padding-left: 12px;}
-                        #dialog [data-item-id="8"].orientation-column > .padding-box > div:not(.sdb-hidden) {padding-top: 0px;}#dialog [data-item-id="8"].orientation-column > .padding-box > div:not(.sdb-hidden) ~ div:not(.sdb-hidden) {padding-top: 12px;}
-                    </style>
-                </div>
-                <div class="button justify-center" data-item-type="button" data-item-id="14" data-item-parent-id="0" style="min-width: auto; min-height: auto;" data-item-name="button1">
-                    <span class="text-container" contenteditable="false" id="generate">Generate Schedule</span>
-                </div>
-            </div>
-            <style class="spacing">
-                #dialog [data-item-id="0"].orientation-row > .padding-box > div:not(.sdb-hidden) {padding-left: 0px;}
-                #dialog [data-item-id="0"].orientation-row > .padding-box > div:not(.sdb-hidden) ~ div:not(.sdb-hidden) {padding-left: 10px;}
-                #dialog [data-item-id="0"].orientation-column > .padding-box > div:not(.sdb-hidden) {padding-top: 0px;}#dialog [data-item-id="0"].orientation-column > .padding-box > div:not(.sdb-hidden) ~ div:not(.sdb-hidden) {padding-top: 10px;}
-            </style>
+                <input type="radio" id="preseason" name="preseason" value="true" checked>
+                <label for="Preseason">Include Pre-Season (Default)</label><br>
+                <input type="radio" id="nopre" name="preseason" value="false" >
+                <label for="Preseason">Exclude Pre-Season</label><br>
+
+        <button class="spectrum-Button spectrum-Button--outline spectrum-Button--primary spectrum-Button--sizeS" id="generate">
+            <span class="spectrum-Button-label">Generate Schedule</span>
+          </button>
+
+        
+    </form>
+    <div style="display:block; margin-top:2em;">
+            <br>
+            <span class="debuglink" id="reload">Reload</span>
+            <span class="debuglink" id="debug">Debug</span>
+            <span class="debuglink" id="sources">Sources</span>        
         </div>
-    </div>
-    
-    <button id="get">Get</button>
-    <!-- These are debugging shortcuts.  Class debuglink items only appear in debug mode  -->
-    <span class="debuglink" id="reload">Reload</span>
-    <span class="debuglink" id="debug">Debug</span>
-    <span class="debuglink" id="sources">Sources</span>
     
     <script src="js/libs/CSInterface.js"></script>
     <script src="js/libs/jquery-2.0.2.min.js"></script>
@@ -129,7 +56,7 @@ Code for Import https://scriptui.joonas.me — (Triple click to select):
     var footballTeams=[
     // Name: Visible to user, val: keyword to quickly grab the action (because I was a dummy and didn't attach the names to all actions), col1: colour 1 hex value, so on so forth.
     // DEFAULT: [100,36,0,74], [0,42,88,4], [2,1,0,21]
-    {name:"Mail Shark",             val: "Mail Shark",      col1: [100,36,0,74],     col2: [0,42,88,4],      col3: [2,1,0,21]},
+    {name:"The Mail Shark",             val: "Mail Shark",      col1: [100,36,0,74],     col2: [0,42,88,4],      col3: [2,1,0,21]},
     {name:"Arizona Cardinals",      val: "Arizona",         col1: [0,100,60,30],     col2: [30,30,30,100],      col3: [0,25,100,0]},
     {name:"Atlanta Falcons",        val: "Atlanta",         col1: [20,100,80,0],     col2: [0,20,20,100],       col3: [5,0,0,25]},
     {name:"Baltimore Ravens",       val: "Baltimore",       col1: [100,100,0,5],     col2: [70,50,50,100],      col3: [5, 0, 0, 25]}, // Switch sheen effect on thiis one!
@@ -164,7 +91,7 @@ Code for Import https://scriptui.joonas.me — (Triple click to select):
     {name:"Washington Commanders",  val: "Washington",      col1: [36, 92, 85, 58],     col2: [0, 32, 99, 0],     col3: [2,1,0,21]}
 ]
     for (i in footballTeams){
-        $("#teams").append(`<option class="" style="width: 35.9453px;">${footballTeams[i].name}</option>`);
+        $("#teams").append(`<option class="spectrum-Picker-label" style="width: 35.9453px;">${footballTeams[i].name}</option>`);
     }
 </script>
 

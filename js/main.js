@@ -49,6 +49,12 @@ function getKeyByValue(object, value) {
             
             const teamPath = path.join(__dirname, `CSV/${selectedTeam.name}.csv`);
             csInterface.evalScript(`addSchedule("${teamPath}")`);
+            var fbObject={
+                name: selectedTeam.teamName,
+                preseason: $('input[name="preseason"]:checked').val(),
+                text: $("#teamText").val()
+            }
+            csInterface.evalScript(`talkToPhotoshop("${path.join(__dirname, "jsx", "exec_photoshop.jsx")}", '${JSON.stringify(fbObject)}')`);
         });
 
 

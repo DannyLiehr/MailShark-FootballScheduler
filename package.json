@@ -1,5 +1,13 @@
 {
   "dependencies": {
+    "@spectrum-css/button": "^10.1.4",
+    "@spectrum-css/checkbox": "^6.1.2",
+    "@spectrum-css/fieldlabel": "^7.0.9",
+    "@spectrum-css/icon": "^3.0.47",
+    "@spectrum-css/page": "^5.0.31",
+    "@spectrum-css/textfield": "^6.0.1",
+    "@spectrum-css/typography": "^5.0.22",
+    "@spectrum-css/vars": "^9.0.8",
     "https": "^1.0.0"
   }
 }

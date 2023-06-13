@@ -2,19 +2,23 @@
 <html>
 <head>
 <meta charset="utf-8">
-        
 <link id="ccstyleTheme" href="css/styles-dark.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="node_modules/@spectrum-css/vars/dist/spectrum-global.css">
 <link rel="stylesheet" href="node_modules/@spectrum-css/vars/dist/spectrum-medium.css">
+<link rel="stylesheet" href="node_modules/@spectrum-css/vars/dist/spectrum-large.css">
 <link rel="stylesheet" href="node_modules/@spectrum-css/vars/dist/spectrum-light.css">
 <link rel="stylesheet" href="node_modules/@spectrum-css/page/dist/index-vars.css">
+<link rel="stylesheet" href="node_modules/@spectrum-css/typography/dist/index-vars.css">
 <link rel="stylesheet" href="node_modules/@spectrum-css/button/dist/index-vars.css">
+<link rel="stylesheet" href="node_modules/@spectrum-css/textfield/dist/index-vars.css">
+<link rel="stylesheet" href="node_modules/@spectrum-css/fieldlabel/dist/index-vars.css">  
 <link id="hostStyle" rel="stylesheet" href="css/styles.css"/>
 <title>Football Scheduler</title>
-<!-- 
-Code for Import https://scriptui.joonas.me — (Triple click to select): 
-{"activeId":0,"items":{"item-0":{"id":0,"type":"Dialog","parentId":false,"style":{"enabled":true,"varName":"FootballScheduler","windowType":"Window","creationProps":{"su1PanelCoordinates":false,"maximizeButton":false,"minimizeButton":false,"independent":false,"closeButton":true,"borderless":false,"resizeable":false},"text":"Football Scheduler","preferredSize":[186,0],"margins":16,"orientation":"column","spacing":10,"alignChildren":["center","top"]}},"item-2":{"id":2,"type":"DropDownList","parentId":10,"style":{"enabled":true,"varName":"TeamChoose","text":"DropDownList","listItems":"Item 1, -,Item 2, Item 3","preferredSize":[0,0],"alignment":"fill","selection":0,"helpTip":null}},"item-4":{"id":4,"type":"EditText","parentId":9,"style":{"enabled":true,"varName":null,"creationProps":{"noecho":false,"readonly":false,"multiline":false,"scrollable":false,"borderless":false,"enterKeySignalsOnChange":false},"softWrap":false,"text":"23","justify":"left","preferredSize":[0,0],"alignment":"fill","helpTip":null}},"item-8":{"id":8,"type":"Panel","parentId":0,"style":{"enabled":true,"varName":null,"creationProps":{"borderStyle":"etched","su1PanelCoordinates":false},"text":"Image Mode","preferredSize":[0,0],"margins":10,"orientation":"column","spacing":10,"alignChildren":["left","top"],"alignment":"fill"}},"item-9":{"id":9,"type":"Panel","parentId":0,"style":{"enabled":true,"varName":null,"creationProps":{"borderStyle":"etched","su1PanelCoordinates":false},"text":"Jersey Number","preferredSize":[0,0],"margins":10,"orientation":"column","spacing":10,"alignChildren":["left","top"],"alignment":"fill"}},"item-10":{"id":10,"type":"Panel","parentId":0,"style":{"enabled":true,"varName":null,"creationProps":{"borderStyle":"etched","su1PanelCoordinates":false},"text":"Player Team","preferredSize":[0,0],"margins":10,"orientation":"column","spacing":10,"alignChildren":["left","top"],"alignment":"fill"}},"item-11":{"id":11,"type":"DropDownList","parentId":8,"style":{"enabled":true,"varName":null,"text":"DropDownList","listItems":"Front Player, Back Player, Helmet","preferredSize":[0,0],"alignment":"fill","selection":0,"helpTip":null}},"item-12":{"id":12,"type":"Panel","parentId":0,"style":{"enabled":true,"varName":"","creationProps":{"borderStyle":"etched","su1PanelCoordinates":false},"text":"Team Name (If Applicable)","preferredSize":[0,0],"margins":10,"orientation":"column","spacing":10,"alignChildren":["left","top"],"alignment":"fill"}},"item-13":{"id":13,"type":"EditText","parentId":12,"style":{"enabled":true,"varName":null,"creationProps":{"noecho":false,"readonly":false,"multiline":false,"scrollable":false,"borderless":false,"enterKeySignalsOnChange":false},"softWrap":false,"text":"Mail Shark","justify":"left","preferredSize":[0,0],"alignment":"fill","helpTip":null}},"item-14":{"id":14,"type":"Button","parentId":0,"style":{"enabled":true,"varName":null,"text":"Generate Schedule","justify":"center","preferredSize":[0,0],"alignment":null,"helpTip":null}}},"order":[0,10,2,9,4,12,13,8,11,14],"settings":{"importJSON":true,"indentSize":false,"cepExport":true,"includeCSSJS":true,"showDialog":true,"functionWrapper":false,"afterEffectsDockable":false,"itemReferenceList":"None"}}
---> 
+<style>
+    label{
+        display: block;
+    }
+</style>
 
 </head>
 
@@ -25,12 +29,22 @@ Code for Import https://scriptui.joonas.me — (Triple click to select):
                     <span class="spectrum-Picker-label is-placeholder">Select a Team</span>
                 </select>
                 <hr class="spectrum-Divider spectrum-Divider--sizeM">
-                <input type="radio" id="preseason" name="preseason" value="true" checked>
-                <label for="Preseason">Include Pre-Season (Default)</label><br>
+                <!-- <div class="spectrum-Radio"><input type="radio" id="preseason" name="preseason" value="true">
+                <label for="Preseason">Include Pre-Season (Default)</label>
                 <input type="radio" id="nopre" name="preseason" value="false" >
-                <label for="Preseason">Exclude Pre-Season</label><br>
+                <label for="Preseason">Exclude Pre-Season</label><br></div> -->
 
-        <button class="spectrum-Button spectrum-Button--outline spectrum-Button--primary spectrum-Button--sizeS" id="generate">
+                  <div class="spectrum-Switch spectrum-Switch--sizeM spectrum-Switch--emphasized">
+                    <input type="checkbox" class="spectrum-Switch-input" id="switch-onoff-0">
+                    <span class="spectrum-Switch-switch"></span>
+                    <label class="spectrum-Switch-label" for="switch-onoff-0">Switch Off</label>
+                  </div>
+                  
+                
+                <label for="teamText">Name on Jersey (Back only)</label>
+                <input type="text" id="teamText" name="teamText">
+                
+        <button class="spectrum-Button spectrum-Button--outline spectrum-Button--primary spectrum-Button--sizeS" id="generate" style="margin-top:2em;">
             <span class="spectrum-Button-label">Generate Schedule</span>
           </button>
 

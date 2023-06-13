@@ -54,6 +54,8 @@ function getKeyByValue(object, value) {
                 preseason: $('input[name="preseason"]:checked').val(),
                 text: $("#teamText").val()
             }
+            return csInterface.evalScript(`alert(${fbObject})`);
+
             csInterface.evalScript(`talkToPhotoshop("${path.join(__dirname, "jsx", "exec_photoshop.jsx")}", '${JSON.stringify(fbObject)}')`);
         });
 

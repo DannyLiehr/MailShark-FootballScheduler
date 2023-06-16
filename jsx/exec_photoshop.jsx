@@ -15,4 +15,4 @@ app.doAction("ActionStep","ActionFile.ATN")
 
 */
 
-alert("Applying Template for: " + argv2 + "\n Preseason: " + argv3 +"\n Jersey Text:" + argv4);
+alert("Applying Template for: " + argv2 + "\n Preseason: " + argv3 +"\n Jersey Text:" + argv4 + "\n Image Type: " + argv5);

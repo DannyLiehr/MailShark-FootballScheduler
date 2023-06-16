@@ -2,10 +2,6 @@
 /*global $, Folder*/
 #include "json2.js";
 
-function sayHello(){
-    alert("AAGH")
-}
-
 
 // three functions because the arguments on mainjs would look insane
 function changeColour(type, c,m,y,k){
@@ -57,10 +53,10 @@ function talkToPhotoshop(jsxPath, fbOptions) {
 
         // Define argument params to pass to Photoshop
         var params = "\
-            var argv1 = 'Football' \
             var argv2 = '" + fbOptions.name + "' \
             var argv3 = '" + fbOptions.preseason + "' \
             var argv4 = '" + fbOptions.text + "' \
+            var argv5 = '" + fbOptions.type + "' \
         "
 
         // Target Photoshop

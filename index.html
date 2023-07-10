@@ -11,33 +11,31 @@
 </head>
 
 <body require-nodejs style="padding: .5em;">
-    <form class="spectrum-Form spectrum-Form--labelsAbove">
         <label for="teams" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Football Team </label>
-                <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="teams">
-                    <span class="spectrum-Picker-label is-placeholder">Select a Team</span>
+                <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="teams" name="teams">
+                    <!-- <option class="spectrum-Picker-label is-placeholder" disabled selected>Select a Team</option> -->
                 </select>
                 <hr class="spectrum-Divider spectrum-Divider--sizeM">
+
                 <div class="spectrum-Switch spectrum-Switch--sizeM spectrum-Switch--emphasized">
-                    <input type="checkbox" class="spectrum-Switch-input" id="teamSwitch" checked>
-                    <span class="spectrum-Switch-switch"></span>
-                    <label class="spectrum-Switch-label" for="switch-onoff-1">Switch On</label>
-                </div>
-                
-                <label for="teamText">Name on Jersey (Back only)</label>
-                <input type="text" id="teamText" name="teamText"><br>
-                <label for="teams" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Image type </label>
-                <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="mode">
-                    <option class="spectrum-Picker-label is-placeholder" value="Helmet">Helmet</option>
-                    <option class="spectrum-Picker-label is-placeholder" value="Front">Front</option>
-                    <option class="spectrum-Picker-label is-placeholder" value="Back">Back</option>
+                    <input type="checkbox" class="spectrum-Switch-input" id="switch-onoff-1" name="preseason" checked>
+                    <label class="spectrum-Switch-label" for="switch-onoff-1">Include Pre-Season (On by default)</label>
+                  </div>
+                  
+                <label for="teamText" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Name on Jersey (Back only)</label>
+                <input type="text" id="teamText" name="teamText">
+                  <br>
+                <label for="teamText" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Image Mode</label><br>
+                <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" name="image_mode" id="image_mode">
+                    <option class="spectrum-Picker-label" value="Front" selected>Front Facing Player</option>
+                    <option class="spectrum-Picker-label" value="Back">Back Facing Player</option>
+                    <option class="spectrum-Picker-label" value="Helmet">Helmet</option>
                 </select>
                 
         <button class="spectrum-Button spectrum-Button--outline spectrum-Button--primary spectrum-Button--sizeS" id="generate" style="margin-top:2em;">
             <span class="spectrum-Button-label">Generate Schedule</span>
           </button>
 
-        
-    </form>
     <div style="display:block; margin-top:2em;">
             <br>
             <span class="debuglink" id="reload">Reload</span>
@@ -54,44 +52,44 @@
 </body>
 <script>
     var footballTeams=[
-    // Name: Visible to user, val: keyword to quickly grab the action (because I was a dummy and didn't attach the names to all actions), col1: colour 1 hex value, so on so forth.
-    // DEFAULT: [100,36,0,74], [0,42,88,4], [2,1,0,21]
-    {name:"The Mail Shark",         val: "Mail Shark",      col1: [100,36,0,74],     col2: [0,42,88,4],         col3: [2,1,0,21]},
-    {name:"Arizona Cardinals",      val: "Arizona",         col1: [0,100,60,30],     col2: [30,30,30,100],      col3: [0,25,100,0]},
-    {name:"Atlanta Falcons",        val: "Atlanta",         col1: [20,100,80,0],     col2: [0,20,20,100],       col3: [5,0,0,25]},
-    {name:"Baltimore Ravens",       val: "Baltimore",       col1: [100,100,0,5],     col2: [70,50,50,100],      col3: [5, 0, 0, 25]}, // Switch sheen effect on this one!
-    {name:"Buffalo Bills",          val: "Buffalo",         col1: [100, 60, 0, 20],  col2: [10, 100, 100, 0],   col3: [2,1,0,21]},
-    {name:"Carolina Panthers",      val: "Carolina",        col1: [100, 10, 0, 5],   col2: [100, 40, 0, 100],   col3: [0, 0, 0, 20]},
-    {name:"Chicago Bears",          val: "Chicago",         col1: [100, 60, 0, 80],  col2: [0, 75, 100, 0],     col3: [2,1,0,21]},
-    {name:"Cincinnati Bengals",     val: "Cincinnati",      col1: [0, 85, 100, 0],   col2: [70, 50, 50, 100],   col3: [2,1,0,21]},
-    {name:"Cleveland Browns",       val: "Cleveland",       col1: [1, 33, 85, 94],   col2: [2, 93, 100, 0],     col3: [0,0,0,0]},
-    {name:"Dallas Cowboys",         val: "Dallas",          col1: [100, 64, 0, 42],  col2: [15, 0, 1, 41],      col3: [11, 3, 0, 41]},
-    {name:"Denver Broncos",         val: "Denver",          col1: [0, 75, 98, 0],    col2: [81, 45, 0, 75],     col3: [2,1,0,21]},
-    {name:"Detroit Lions",          val: "Detroit",         col1: [100, 45, 0, 10],  col2: [3, 0, 0, 32],       col3: [0, 0, 0, 100]},
-    {name:"Green Bay Packers",      val: "Green Bay",       col1: [79, 34, 62, 84],  col2: [0, 31, 98, 0],      col3: [2,1,0,21]},
-    {name:"Houston Texans",         val: "Houston",         col1: [100, 60, 0, 80],  col2: [0, 100, 79, 20],    col3: [2,1,0,21]},
-    {name:"Indianapolis Colts",     val: "Indianapolis",    col1: [100, 85, 30, 16], col2: [2,1,0,21],          col3: [2,1,0,21]},
-    {name:"Jacksonville Jaguars",   val: "Jacksonville",    col1: [100, 9, 29, 47],  col2: [0, 28, 98, 11],     col3: [2,1,0,21]},
-    {name:"Kansas City Chiefs",     val: "Kansas City",     col1: [0, 92, 77, 22],   col2: [0, 31, 98, 0],      col3: [2,1,0,21]},
-    {name:"Las Vegas Raiders",      val: "Las Vegas",       col1: [0, 0, 0, 100],    col2: [50, 38, 32, 2],     col3: [2,1,0,21]},
-    {name:"Los Angeles Chargers",   val: "Chargers",        col1: [90, 40, 0, 0],    col2: [0, 25, 100, 0],     col3: [2,1,0,21]},
-    {name:"Los Angeles Rams",       val: "Rams",            col1: [100, 90, 10, 2],  col2: [0, 60, 100, 0],     col3: [0, 42, 100, 0]},
-    {name:"Miami Dolphins",         val: "Miami",           col1: [100, 61, 35, 50], col2: [100, 21, 42, 2],    col3: [0, 73, 98, 0]},
-    {name:"Minnesota Vikings",      val: "Minnesota",       col1: [82, 100, 0, 12],  col2: [0, 23, 91, 0],      col3: [2,1,0,21]},
-    {name:"New England Patriots",   val: "New England",     col1: [100, 65, 0, 60],  col2: [10, 100, 100, 0],   col3: [3, 0, 0, 32]},
-    {name:"New Orleans Saints",     val: "New Orleans",     col1: [18, 23, 49, 0],   col2: [0, 0, 0, 100],      col3: [2,1,0,21]},
-    {name:"New York Giants",        val: "Giants",          col1: [20, 100, 80, 0],  col2: [100, 75, 0, 30],    col3: [5, 0, 0, 60]},
-    {name:"New York Jets",          val: "Jets",            col1: [87, 41, 78, 37],  col2: [0, 0, 0, 100],      col3: [2,1,0,21]},
-    {name:"Philadelphia Eagles",    val: "Philadelphia",    col1: [100, 0, 30, 70],  col2: [10, 0, 0, 20],      col3: [70, 50, 50, 100]},
-    {name:"Pittsburgh Steelers",    val: "Pittsburgh",      col1: [0, 30, 75, 0],    col2: [100, 40, 0, 100],   col3: [2,1,0,21]},
-    {name:"San Francisco 49ers",    val: "San Fran",        col1: [7, 100, 82, 26],  col2: [0, 25, 56, 51],     col3: [2,1,0,21]},
-    {name:"Seattle Seahawks",       val: "Seattle",         col1: [100, 65, 0, 60],  col2: [57, 0, 84, 0],      col3: [5, 0, 0, 30]},
-    {name:"Tampa Bay Buccaneers",   val: "Tampa Bay",       col1: [2, 100, 85, 6],   col2: [65, 62, 67, 62],    col3: [0, 60, 100, 0]},
-    {name:"Tennessee Titans",       val: "Tennesee",        col1: [100, 76, 12, 70], col2: [45, 34, 34, 0],     col3: [48, 29, 26, 76]}, // I misspelled it on the action.
-    {name:"Washington Commanders",  val: "Washington",      col1: [36, 92, 85, 58],  col2: [0, 32, 99, 0],      col3: [2,1,0,21]}
-]
+        // Name: Visible to user, val: keyword to quickly grab the action (because I was a dummy and didn't attach the names to all actions), col1: colour 1 hex value, so on so forth.
+        // DEFAULT: [100,36,0,74], [0,42,88,4], [2,1,0,21]
+        // {name:"The Mail Shark",         val: "Mail Shark",              col1: [100,36,0,74],        col2: [0,42,88,4],          col3: [2,1,0,21]},
+        {name:"Arizona Cardinals",      val: "Arizona Cardinals",       col1: [0,100,60,30],        col2: [30,30,30,100],       col3: [0,25,100,0]},
+        {name:"Atlanta Falcons",        val: "Atlanta Falcons",         col1: [20,100,80,0],        col2: [0,20,20,100],        col3: [5,0,0,25]},
+        {name:"Baltimore Ravens",       val: "Baltimore Ravens",        col1: [100,100,0,5],        col2: [70,50,50,100],       col3: [5, 0, 0, 25]}, // Switch sheen effect on thiis one!
+        {name:"Buffalo Bills",          val: "Buffalo Bills",           col1: [100, 60, 0, 20],     col2: [10, 100, 100, 0],    col3: [2,1,0,21]},
+        {name:"Carolina Panthers",      val: "Carolina Panthers",       col1: [100, 10, 0, 5],      col2: [100, 40, 0, 100],    col3: [0, 0, 0, 20]},
+        {name:"Chicago Bears",          val: "Chicago Bears",           col1: [100, 60, 0, 80],     col2: [0, 75, 100, 0],      col3: [2,1,0,21]},
+        {name:"Cincinnati Bengals",     val: "Cincinnati Bengals",      col1: [0, 85, 100, 0],      col2: [70, 50, 50, 100],    col3: [2,1,0,21]},
+        {name:"Cleveland Browns",       val: "Cleveland Browns",        col1: [1, 33, 85, 94],      col2: [2, 93, 100, 0],      col3: [0,0,0,0]},
+        {name:"Dallas Cowboys",         val: "Dallas Cowboys",          col1: [100, 64, 0, 42],     col2: [15, 0, 1, 41],       col3: [11, 3, 0, 41]},
+        {name:"Denver Broncos",         val: "Denver Broncos",          col1: [0, 75, 98, 0],       col2: [81, 45, 0, 75],      col3: [2,1,0,21]},
+        {name:"Detroit Lions",          val: "Detroit Lions",           col1: [100, 45, 0, 10],     col2: [3, 0, 0, 32],        col3: [0, 0, 0, 100]},
+        {name:"Green Bay Packers",      val: "Green Bay Packers",       col1: [79, 34, 62, 84],     col2: [0, 31, 98, 0],       col3: [2,1,0,21]},
+        {name:"Houston Texans",         val: "Houston Texans",          col1: [100, 60, 0, 80],     col2: [0, 100, 79, 20],     col3: [2,1,0,21]},
+        {name:"Indianapolis Colts",     val: "Indianapolis Colts",      col1: [100, 85, 30, 16],    col2: [2,1,0,21],           col3: [2,1,0,21]},
+        {name:"Jacksonville Jaguars",   val: "Jacksonville Jaguars",    col1: [100, 9, 29, 47],     col2: [0, 28, 98, 11],      col3: [2,1,0,21]},
+        {name:"Kansas City Chiefs",     val: "Kansas City Chiefs",      col1: [0, 92, 77, 22],      col2: [0, 31, 98, 0],       col3: [2,1,0,21]},
+        {name:"Las Vegas Raiders",      val: "Las Vegas Raiders",       col1: [0, 0, 0, 100],       col2: [50, 38, 32, 2],      col3: [2,1,0,21]},
+        {name:"Los Angeles Chargers",   val: "Los Angeles Chargers",    col1: [90, 40, 0, 0],       col2: [0, 25, 100, 0],      col3: [2,1,0,21]},
+        {name:"Los Angeles Rams",       val: "Los Angeles Rams",        col1: [100, 90, 10, 2],     col2: [0, 60, 100, 0],      col3: [0, 42, 100, 0]},
+        {name:"Miami Dolphins",         val: "Miami Dolphins",          col1: [100, 61, 35, 50],    col2: [100, 21, 42, 2],     col3: [0, 73, 98, 0]},
+        {name:"Minnesota Vikings",      val: "Minnesota Vikings",       col1: [82, 100, 0, 12],     col2: [0, 23, 91, 0],       col3: [2,1,0,21]},
+        {name:"New England Patriots",   val: "New England Patriots",    col1: [100, 65, 0, 60],     col2: [10, 100, 100, 0],    col3: [3, 0, 0, 32]},
+        {name:"New Orleans Saints",     val: "New Orleans Saints",      col1: [18, 23, 49, 0],      col2: [0, 0, 0, 100],       col3: [2,1,0,21]},
+        {name:"New York Giants",        val: "New York Giants",         col1: [20, 100, 80, 0],     col2: [100, 75, 0, 30],     col3: [5, 0, 0, 60]},
+        {name:"New York Jets",          val: "New York Jets",           col1: [87, 41, 78, 37],     col2: [0, 0, 0, 100],       col3: [2,1,0,21]},
+        {name:"Philadelphia Eagles",    val: "Philadelphia Eagles",     col1: [100, 0, 30, 70],     col2: [10, 0, 0, 20],       col3: [70, 50, 50, 100]},
+        {name:"Pittsburgh Steelers",    val: "Pittsburgh Steelers",     col1: [0, 30, 75, 0],       col2: [100, 40, 0, 100],    col3: [2,1,0,21]},
+        {name:"San Francisco 49ers",    val: "San Fran 49ers",          col1: [7, 100, 82, 26],     col2: [0, 25, 56, 51],      col3: [2,1,0,21]},
+        {name:"Seattle Seahawks",       val: "Seattle Seahawks",        col1: [100, 65, 0, 60],     col2: [57, 0, 84, 0],       col3: [5, 0, 0, 30]},
+        {name:"Tampa Bay Buccaneers",   val: "Tampa Bay Buccaneers",    col1: [2, 100, 85, 6],      col2: [65, 62, 67, 62],     col3: [0, 60, 100, 0]},
+        {name:"Tennessee Titans",       val: "Tennesee Titans",         col1: [100, 76, 12, 70],    col2: [45, 34, 34, 0],      col3: [48, 29, 26, 76]}, // I misspelled it on the action.
+        {name:"Washington Commanders",  val: "Washington Commanders",   col1: [36, 92, 85, 58],     col2: [0, 32, 99, 0],       col3: [2,1,0,21]}
+    ]
     for (i in footballTeams){
-        $("#teams").append(`<option class="spectrum-Picker-label" style="width: 35.9453px;" val="${footballTeams[i].val}">${footballTeams[i].name}</option>`);
+        $('#teams').append(`<option class="spectrum-Picker-label" style="width: 35.9453px;">${footballTeams[i].name}</option>`);
     }
 </script>
 

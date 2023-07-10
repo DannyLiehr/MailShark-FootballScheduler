@@ -15,66 +15,51 @@ function changeColour(type, c,m,y,k){
 
 function addSchedule(path){
     try{
-      app.activeDocument.dataMergeProperties.removeDataSource();  
+      // Removes the current data source to put our own in
+      app.activeDocument.dataMergeProperties.removeDataSource(); 
+      // Adds the data source of the selected team based on their path. 
       app.activeDocument.dataMergeProperties.selectDataSource(path);  
-    //   File("../launchPS.scpt").execute();
     } catch(e){
         alert(e);
     }
-    // selectDataSource(dataSourceFile:File)
 }
 
-// talkToPhotoshop();
-// talkToPhotoshop("/Users/csetuser/Library/Application Support/Adobe/CEP/extensions/com.example.bridgetalk/jsx/exec_photoshop.jsx", "{\"name":"Tennesee Titans","preseason":true,"text":"Hi"}")
-
-function talkToPhotoshop(jsxPath, fbOptions) {
+function talkToPhotoshop(jsxPath, fbOptions, extDir) {
 
     fbOptions = JSON.parse(fbOptions);
-
     // Create a new File object and specify the path to the file you want to read.
     var file = new File(jsxPath);
-
     // Open the file for reading.
     file.open("r");
-
     // Use the File object's read() method to read the contents of the file into a string.
     var fileContents = file.read();
-
     // Close the file.
     file.close();
-
     // Create a new BridgeTalk object 
     var bt = new BridgeTalk();
 
         // Front load the variables
-        // var footballTeam = "Tennessee Titans";
-        // var awayOrHome = "Away";
-        // var timeZone = "EST";
 
         // Define argument params to pass to Photoshop
         var params = "\
-            var argv2 = '" + fbOptions.name + "' \
-            var argv3 = '" + fbOptions.preseason + "' \
-            var argv4 = '" + fbOptions.text + "' \
-            var argv5 = '" + fbOptions.type + "' \
+            var argv1 = '" + fbOptions.name + "' \
+            var argv2 = '" + fbOptions.preseason + "' \
+            var argv3 = '" + fbOptions.text + "' \
+            var argv4 = '" + fbOptions.type + "' \
+            var argv5 = '" + extDir +"'\
         "
-
         // Target Photoshop
-        bt.target = "photoshop";
-        
+        bt.target = "photoshop";      
         // JavaScript to execute...
         bt.body = params + fileContents;
-
         // On success...
         bt.onResult = function (msg) {
             alert("Talked to Photoshop!")
         };
-
         // On error...
         bt.onError = function (err) {
-            alert("Error: " + err);
+            alert("Oops! Error: " + err.body);
         }
-        
         // Bombs away...
         bt.send();
 

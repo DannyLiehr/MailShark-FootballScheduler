@@ -32,11 +32,17 @@ var file = new File(fileStr);
 alert("Opening Football image now.");
 app.open(file);
 // If the image selected is the back version, set text.
-if (argv3){
+if (argv4 == "Back"){
     // Has text.
     alert("Applying back jersey text: " + argv3);
     app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("- EDIT TEXT - TEAM");
+} else if (argv4=="Helmet"){
+    // Helmet
+    app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("Shell");  
+} else {
+    // Front Facting player
+  app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("Player");  
 }
-app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("- EDIT TEXT - NUMBER");
-app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("Player");
+// app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("- EDIT TEXT - NUMBER");
+
 app.doAction(act, actset);

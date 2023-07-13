@@ -62,6 +62,7 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir) {
             alert("Oops! Error: " + err.body);
         }
         // Bombs away...
+        alert("Photoshop is about to open to generate a schedule image. You may need to click on it on the dock to continue generating a schedule.");
         bt.send();
 
 }

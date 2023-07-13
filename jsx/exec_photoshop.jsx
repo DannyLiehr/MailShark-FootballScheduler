@@ -21,15 +21,22 @@ switch(argv4){
         actset= "Team Colors (Jersey)";
         fileSelect= "front player";
 }
-// var playerPath = path.join(__dirname, 'templates/' + fileSelect + '.psdt');
-var playerPath= argv5 + "/templates/" + fileSelect + ".psdt";
-// var actionPath = path.join(__dirname, 'actions/' + actset + '.atn');
-var actionPath= argv5 + "/actions/" + actset + ".atn";
-
-var file = new File(playerPath);
+actset = actset + ".atn";
+var fileStr = argv6 + "/" + fileSelect + ".psdt";
+var file = new File(fileStr);
 // Open the file for reading.
-file.open("r");
+// file.open("r");
 
 // app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("Player");
 // app.doAction(act, actionPath);
-alert(actionPath);
+alert("Opening Football image now.");
+app.open(file);
+// If the image selected is the back version, set text.
+if (argv3){
+    // Has text.
+    alert("Applying back jersey text: " + argv3);
+    app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("- EDIT TEXT - TEAM");
+}
+app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("- EDIT TEXT - NUMBER");
+app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("Player");
+app.doAction(act, actset);

@@ -32,7 +32,6 @@ function getKeyByValue(object, value) {
                     break;
                 }
             }
-            console.log(selectedTeam);
             try{
                 // Let's add to the object, since JS is terrible and lets you do that.
                 if ($("#teamName").text()){
@@ -64,8 +63,8 @@ function getKeyByValue(object, value) {
                     text:       $('input[name="teamText"]').val() || "",
                     type:       $('select#image_mode option:selected').val()
                 }
-                var extPath= `${__dirname}`;
-                csInterface.evalScript(`talkToPhotoshop("${path.join(__dirname, "jsx", "exec_photoshop.jsx")}", '${JSON.stringify(fbObject)}'), "${extPath}"`);
+                // jsxPath, fbOptions, actDir, playDir
+                csInterface.evalScript(`talkToPhotoshop("${path.join(__dirname, "jsx", "exec_photoshop.jsx")}", '${JSON.stringify(fbObject)}', "${path.join(__dirname, "actions")}", "${path.join(__dirname, "templates")}")`);
             } catch (e){
                 csInterface.evalScript(`alert("${e}\nPlease email Danny and explain what you put into the extension! Thanks. 🌟")`);               
             }

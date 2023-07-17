@@ -24,7 +24,7 @@ function addSchedule(path){
     }
 }
 
-function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir) {
+function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, numText) {
 
     fbOptions = JSON.parse(fbOptions);
     // Create a new File object and specify the path to the file you want to read.
@@ -48,6 +48,7 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir) {
             var argv4 = '" + fbOptions.type + "' \
             var argv5 = '" + actDir +"'\
             var argv6 = '" + playDir +"'\
+            var argv7 = '" + numText +"'\
         "
         // Target Photoshop
         bt.target = "photoshop";      

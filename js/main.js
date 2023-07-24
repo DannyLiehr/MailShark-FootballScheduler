@@ -61,7 +61,8 @@ function getKeyByValue(object, value) {
                     name:       selectedTeam.name,
                     preseason:  $('input[name="preseason"]:checked').val() == "on" ? true : false,
                     text:       $('input[name="teamText"]').val() || "",
-                    type:       $('select#image_mode option:selected').val()
+                    type:       $('select#image_mode option:selected').val(),
+                    number:     $('input[name="teamNumber"]').val()
                 }
                 // jsxPath, fbOptions, actDir, playDir
                 csInterface.evalScript(`talkToPhotoshop("${path.join(__dirname, "jsx", "exec_photoshop.jsx")}", '${JSON.stringify(fbObject)}', "${path.join(__dirname, "actions")}", "${path.join(__dirname, "templates")}")`);

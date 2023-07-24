@@ -48,7 +48,7 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, numText) {
             var argv4 = '" + fbOptions.type + "' \
             var argv5 = '" + actDir +"'\
             var argv6 = '" + playDir +"'\
-            var argv7 = '" + numText +"'\
+            var argv7 = '" + fbOptions.number +"'\
         "
         // Target Photoshop
         bt.target = "photoshop";      

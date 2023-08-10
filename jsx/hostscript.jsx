@@ -56,7 +56,8 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, numText) {
         bt.body = params + fileContents;
         // On success...
         bt.onResult = function (msg) {
-            alert("Talked to Photoshop!")
+            // alert("Talked to Photoshop!")
+            // From here, relink the player file. We'll need to find a way to do that easily. Maybe name the object specifically in the INDD file?
         };
         // On error...
         bt.onError = function (err) {

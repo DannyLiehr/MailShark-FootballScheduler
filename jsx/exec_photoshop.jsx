@@ -50,17 +50,19 @@ if (argv4=="Helmet"){
 
 app.doAction(act, actset);
 
-/* Pseudocode/Bard Generated Code:
 
-Note to self: Use PSD and not JPG.
+  // Create a new file object for the PSD.
+  var saveFile = new File(app.activeDocument.name + ".psd");
 
-// Create a JPEGSaveOptions object
-var jpgSaveOptions = new JPEGSaveOptions()
+  // Create a new PhotoshopSaveOptions object.
+  var saveOptions = new PhotoshopSaveOptions();
 
-// Set the quality of the JPEG image
-jpgSaveOptions.quality = 80
+  // Set the options for the save operation.
+  saveOptions.alphaChannels = true;
+  saveOptions.annotations = true;
+  saveOptions.embedColorProfile = true;
+  saveOptions.layers = true;
+  saveOptions.spotColors = false;
 
-// Save the document as a JPEG file
-doc.saveAs(saveFile, jpgSaveOptions)
-
-*/
+  // Save the document as a PSD.
+  app.activeDocument.saveAs(saveFile, saveOptions, true, Extension.LOWERCASE); 

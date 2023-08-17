@@ -41,6 +41,8 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, numText) {
         // Front load the variables
 
         // Define argument params to pass to Photoshop
+        // Line 9: var argv8 = '~/Library/CloudStorage/OneDrive-SharedLibraries-MailShark/Prepress%20Team%20-%20Documents/General/Artist%20Folders/Danny's_Files/Active%20Projects/!!_Internal'
+        // Expected: ;
         var params = "\
             var argv1 = '" + fbOptions.name + "' \
             var argv2 = '" + fbOptions.preseason + "' \
@@ -49,7 +51,8 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, numText) {
             var argv5 = '" + actDir +"'\
             var argv6 = '" + playDir +"'\
             var argv7 = '" + fbOptions.number +"'\
-        "
+            var argv8 = '" + app.activeDocument.filePath.path +"'\
+        ";
         // Target Photoshop
         bt.target = "photoshop";      
         // JavaScript to execute...

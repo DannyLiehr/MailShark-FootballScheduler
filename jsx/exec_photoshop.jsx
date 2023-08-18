@@ -50,19 +50,15 @@ if (argv4=="Helmet"){
 
 app.doAction(act, actset);
 
-
   // Create a new file object for the PSD.
-  var saveFile = new File(app.activeDocument.name + ".psd");
+  var saveFile = new File(argv8 + "/FootballPlayer " + argv9 +".png");
 
   // Create a new PhotoshopSaveOptions object.
-  var saveOptions = new PhotoshopSaveOptions();
+  var saveOptions = new PNGSaveOptions();
 
   // Set the options for the save operation.
-  saveOptions.alphaChannels = true;
-  saveOptions.annotations = true;
-  saveOptions.embedColorProfile = true;
-  saveOptions.layers = true;
-  saveOptions.spotColors = false;
+  saveOptions.compression = 0;
+  saveOptions.interlaced= false;
 
   // Save the document as a PSD.
-  app.activeDocument.saveAs(saveFile, saveOptions, true, Extension.LOWERCASE); 
+  app.activeDocument.saveAs(saveFile, saveOptions, true, Extension.LOWERCASE);

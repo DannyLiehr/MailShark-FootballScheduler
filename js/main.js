@@ -62,7 +62,7 @@ function getKeyByValue(object, value) {
                     preseason:  $('input[name="preseason"]:checked').val() == "on" ? true : false,
                     text:       $('input[name="teamText"]').val() || "",
                     type:       $('select#image_mode option:selected').val(),
-                    number:     $('input[name="teamNumber"]').val()
+                    number:     $('input[name="teamNumber"]').val() || (new Date().getFullYear() % 100) // Grabs the last 2 digits of the current Year
                 }
                 // jsxPath, fbOptions, actDir, playDir
                 csInterface.evalScript(`talkToPhotoshop("${path.join(__dirname, "jsx", "exec_photoshop.jsx")}", '${JSON.stringify(fbObject)}', "${path.join(__dirname, "actions")}", "${path.join(__dirname, "templates")}")`);

@@ -21,12 +21,17 @@
                     <input type="checkbox" class="spectrum-Switch-input" id="switch-onoff-1" name="preseason" checked>
                     <label class="spectrum-Switch-label" for="switch-onoff-1">Include Pre-Season (On by default)</label>
                   </div>
-                  
-                <label for="teamText" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Name on Jersey (Back only)</label>
-                <input type="text" id="teamText" name="teamText">
-                <br>
-                <label for="teamNumber" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Number on Jersey</label><br>
-                <input type="number" id="teamNumber" name="teamNumber">
+                
+                <!-- <label for="teamNumber" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Number on Jersey</label><br>
+                <input type="number" id="teamNumber" name="teamNumber" max="99" class="spectrum-Textfield-input spectrum-Stepper-input"> -->
+                <div class="spectrum-Form-item">
+                    <label class="spectrum-FieldLabel spectrum-FieldLabel--sizeM spectrum-Form-itemLabel spectrum-FieldLabel--right" for="fieldLabelExample-stepper">Jersey Number</label>
+                    <div class="spectrum-Form-itemField">
+                      <div class="spectrum-Stepper">
+                        <div class="spectrum-Textfield spectrum-Stepper-textfield">
+                          <!-- <input type="number" class="spectrum-Textfield-input spectrum-Stepper-input" placeholder="Enter a number" min="-2" max="2" step="1" id="fieldLabelExample-stepper"> -->
+                          <input type="number" id="teamNumber" name="teamNumber">
+                        </div>
                 <br>
                 <label for="teamText" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Image Mode</label><br>
                 <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" name="image_mode" id="image_mode">
@@ -34,7 +39,10 @@
                     <option class="spectrum-Picker-label" value="Back">Back Facing Player</option>
                     <option class="spectrum-Picker-label" value="Helmet">Helmet</option>
                 </select>
-                
+                <div class="spectrum-Form-item">
+                    <label for="teamText" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Name on Jersey (Back only)</label>
+                    <input type="text" id="teamText" name="teamText">
+                    </div>
         <button class="spectrum-Button spectrum-Button--outline spectrum-Button--primary spectrum-Button--sizeS" id="generate" style="margin-top:2em;">
             <span class="spectrum-Button-label">Generate Schedule</span>
           </button>
@@ -45,7 +53,6 @@
             <span class="debuglink" id="debug">Debug</span>
             <span class="debuglink" id="sources">Sources</span>        
         </div>
-    
     <script src="js/libs/CSInterface.js"></script>
     <script src="js/libs/jquery-2.0.2.min.js"></script>
 

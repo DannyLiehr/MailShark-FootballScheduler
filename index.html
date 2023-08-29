@@ -13,34 +13,26 @@
 <body require-nodejs style="padding: .5em;">
         <label for="teams" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Football Team </label>
                 <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="teams" name="teams">
-                    <!-- <option class="spectrum-Picker-label is-placeholder" disabled selected>Select a Team</option> -->
                 </select>
-                <hr class="spectrum-Divider spectrum-Divider--sizeM">
+                <hr class="spectrum-Divider spectrum-Divider--sizeS">
 
-                <div class="spectrum-Switch spectrum-Switch--sizeM spectrum-Switch--emphasized">
-                    <input type="checkbox" class="spectrum-Switch-input" id="switch-onoff-1" name="preseason" checked>
-                    <label class="spectrum-Switch-label" for="switch-onoff-1">Include Pre-Season (On by default)</label>
-                  </div>
-                
-                <!-- <label for="teamNumber" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Number on Jersey</label><br>
-                <input type="number" id="teamNumber" name="teamNumber" max="99" class="spectrum-Textfield-input spectrum-Stepper-input"> -->
-                <div class="spectrum-Form-item">
-                    <label class="spectrum-FieldLabel spectrum-FieldLabel--sizeM spectrum-Form-itemLabel spectrum-FieldLabel--right" for="fieldLabelExample-stepper">Jersey Number</label>
-                    <div class="spectrum-Form-itemField">
-                      <div class="spectrum-Stepper">
-                        <div class="spectrum-Textfield spectrum-Stepper-textfield">
-                          <!-- <input type="number" class="spectrum-Textfield-input spectrum-Stepper-input" placeholder="Enter a number" min="-2" max="2" step="1" id="fieldLabelExample-stepper"> -->
-                          <input type="number" id="teamNumber" name="teamNumber">
-                        </div>
-                <br>
-                <label for="teamText" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Image Mode</label><br>
-                <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" name="image_mode" id="image_mode">
+                <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="preseason" name="preseason">
+                </select><br>
+                <small>If it's after July, Preseason is disabled.</small>
+                <hr class="spectrum-Divider spectrum-Divider--sizeS">
+                <label for="image_mode" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Image Mode</label><br>
+                <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" name="image_mode" id="image_mode" onchange="nameForm()">
                     <option class="spectrum-Picker-label" value="Front" selected>Front Facing Player</option>
                     <option class="spectrum-Picker-label" value="Back">Back Facing Player</option>
                     <option class="spectrum-Picker-label" value="Helmet">Helmet</option>
                 </select>
-                <div class="spectrum-Form-item">
-                    <label for="teamText" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Name on Jersey (Back only)</label>
+                      <div class="spectrum-Form-item">
+                        <label for="teamNumber" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Number on Jersey </label><br>
+                        <input type="text" id="teamNumber" name="teamNumber">
+                        </div>
+
+                <div class="spectrum-Form-item" style="display:none;" id="textField">
+                    <label for="teamText" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Name on Jersey (Back only)</label><br>
                     <input type="text" id="teamText" name="teamText">
                     </div>
         <button class="spectrum-Button spectrum-Button--outline spectrum-Button--primary spectrum-Button--sizeS" id="generate" style="margin-top:2em;">
@@ -101,6 +93,32 @@
     for (i in footballTeams){
         $('#teams').append(`<option class="spectrum-Picker-label" style="width: 35.9453px;">${footballTeams[i].name}</option>`);
     }
+
+    /*
+    <option class="spectrum-Picker-label is-placeholder">Preseason On</option>
+    <option class="spectrum-Picker-label is-placeholder">Preseason Off</option>
+    */
+
+    // Cutoff Preseason Date: July 31st.
+    let preseasonEnabled= new Date().getMonth() + 1 <= 6 ? true : false; // Preseason Allowed = Current Month on or before July ? Yes if so : No if not
+
+    $("#preseason").append(`<option value="on" id="preEnabled">Preseason Enabled</option>`);
+    $("#preseason").append(`<option value="off" id="preDisabled">Preseason Disabled</option>`);
+    if (preseasonEnabled == false){
+        // Disable Enabled. Select Disabled.
+        $("#preEnabled").attr("disabled", true)
+        $("#preDisabled").attr("selected", true);
+    }
+
+    function nameForm(){
+        if ($("#image_mode").val()== "Back"){
+            // They chose the back text. So show the teamText.
+            $("#textField").show();
+        } else {
+            $("#textField").hide();
+        }
+    }
+
 </script>
 
 </html>

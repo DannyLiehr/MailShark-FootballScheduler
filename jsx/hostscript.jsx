@@ -24,36 +24,19 @@ function addSchedule(path){
     }
 }
 
-function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir) {
+function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas) {
 
-    fbOptions = JSON.parse(fbOptions);
-    // Create a new File object and specify the path to the file you want to read.
-    var file = new File(jsxPath);
-    // Open the file for reading.
-    file.open("r");
-    // Use the File object's read() method to read the contents of the file into a string.
-    var fileContents = file.read();
-    // Close the file.
-    file.close();
-    // Create a new BridgeTalk object 
-    var bt = new BridgeTalk();
-
-        // Front load the variables
-
-        // Define argument params to pass to Photoshop
-        // Line 9: var argv8 = '~/Library/CloudStorage/OneDrive-SharedLibraries-MailShark/Prepress%20Team%20-%20Documents/General/Artist%20Folders/Danny's_Files/Active%20Projects/!!_Internal'
-        // Expected: ;
-        // app.activeDocument.filePath
-        // app.activeDocument.filePath.includes("gjkfhl") ? "~/Desktop" : app.activeDocument.filePath
-        // var fileDir;
-        // if (app.activeDocument.saved){
-        //     // Not an indt!
-        //     fileDir= app.activeDocument.filePath + "/Links/";
-        // } else{
-        //     // indt, plop it somewhere
-        //     fileDir= "~/Downloads";
-        //     alert("This is an indesign template, so the image will be put on youor Desktop. Please package this document as soon as possible so other artists can access this too.")
-        // }
+        fbOptions = JSON.parse(fbOptions);
+        // Create a new File object and specify the path to the file you want to read.
+        var file = new File(jsxPath);
+        // Open the file for reading.
+        file.open("r");
+        // Use the File object's read() method to read the contents of the file into a string.
+        var fileContents = file.read();
+        // Close the file.
+        file.close();
+        // Create a new BridgeTalk object 
+        var bt = new BridgeTalk();
 
         var curDate = new Date().valueOf();
 
@@ -80,13 +63,36 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir) {
 
             for (var i = 0; i < links.length; i++) {
                 if (links[i].label == "fbPlayer"){
-                    // alert("Found it!");
+                    alert("Found it!");
                     links[i].relink(new File(playDir + "/FootballPlayer "+ curDate +".png"));
                 }
             }
 
             // $.sleep(1000);.
-            alert("The player image is saved in a place that other artists can't access, so make sure to package this when you're done! Thanks.")
+            // alert("The player image is saved in a place that other artists can't access, so make sure to package this when you're done! Thanks.")
+
+            // If they chose no preseason, hide the 20 game objects and layers.
+
+
+            /* app.activeDocument.packageForPrint(
+                new File("~/Downloads"), // to: File
+                true, // Copy Links
+                true, // Copy Colour Profiles
+                true, // Update graphics
+                false, // Include Hidden Layers
+                true, // Ignore Preflight errors. Maybe switch to false idk
+                false, // Create report. Not needed here.
+                false, // Include IDML. Not necessary imo
+                true, // Include PDF
+                "[High Quality Print]", // PDF style
+                false, // Include Hyphenation
+                "Football Schedule", // Version Comments
+                [forceSave: true]
+            );
+            */
+
+            app.activeDocument.dataMergeProperties.mergeRecords();
+
         };
         // On error...
         bt.onError = function (err) {

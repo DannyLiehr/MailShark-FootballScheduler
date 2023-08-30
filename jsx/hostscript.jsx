@@ -63,7 +63,6 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas) {
 
             for (var i = 0; i < links.length; i++) {
                 if (links[i].label == "fbPlayer"){
-                    alert("Found it!");
                     links[i].relink(new File(playDir + "/FootballPlayer "+ curDate +".png"));
                 }
             }
@@ -73,6 +72,20 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas) {
 
             // If they chose no preseason, hide the 20 game objects and layers.
 
+            if (fbOptions.preseason == false){
+                // No preseason. So show the 18 games layer
+                app.activeDocument.layers.itemByName("Schedule - 18 Games").visible= true;
+                // app.activeDocument.layers.itemByName("18 Games").visible= true;
+                app.activeDocument.layers.itemByName("Schedule - 20 Games").visible= false;
+                // app.activeDocument.layers.itemByName("20 Games").visible= false;
+            } else {
+                // Preseason on. Show the 20 games layer.
+                app.activeDocument.layers.itemByName("Schedule - 18 Games").visible= false;
+                // app.activeDocument.layers.itemByName("18 Games").visible= false;
+                app.activeDocument.layers.itemByName("Schedule - 20 Games").visible= true;
+                // app.activeDocument.layers.itemByName("20 Games").visible= true;
+            }
+            // alert(app.activeDocument.layers.itemByName("Secondary Color").polygons.everyItem)
 
             /* app.activeDocument.packageForPrint(
                 new File("~/Downloads"), // to: File
@@ -91,7 +104,7 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas) {
             );
             */
 
-            app.activeDocument.dataMergeProperties.mergeRecords();
+            // app.activeDocument.dataMergeProperties.mergeRecords();
 
         };
         // On error...

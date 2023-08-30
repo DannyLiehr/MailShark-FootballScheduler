@@ -15,11 +15,13 @@
                 <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="teams" name="teams">
                 </select>
                 <hr class="spectrum-Divider spectrum-Divider--sizeS">
+                <div id="preseasonitem">
+                    <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="preseason" name="preseason">
+                    </select><br>
+                    <small>If it's after July, Preseason is disabled.</small>
+                    <hr class="spectrum-Divider spectrum-Divider--sizeS">                    
+                </div>
 
-                <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="preseason" name="preseason">
-                </select><br>
-                <small>If it's after July, Preseason is disabled.</small>
-                <hr class="spectrum-Divider spectrum-Divider--sizeS">
                 <label for="image_mode" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Image Mode</label><br>
                 <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" name="image_mode" id="image_mode" onchange="nameForm()">
                     <option class="spectrum-Picker-label" value="Front" selected>Front Facing Player</option>
@@ -108,6 +110,7 @@
         // Disable Enabled. Select Disabled.
         $("#preEnabled").attr("disabled", true)
         $("#preDisabled").attr("selected", true);
+        $("#preseasonitem").hide()
     }
 
     function nameForm(){

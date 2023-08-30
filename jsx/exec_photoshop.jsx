@@ -36,8 +36,9 @@ if (argv4=="Helmet"){
 
    if (argv4 == "Back"){
         // Has text.
-        app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("- EDIT TEXT - TEAM");
-        targetLayer = app.activeDocument.artLayers.getByName("- EDIT TEXT - NUMBER");
+        // app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("- EDIT TEXT - TEAM");
+        // targetLayer = app.activeDocument.artLayers.getByName("EDIT TEXT - NUMBER");
+        targetLayer = app.activeDocument.artLayers.getByName("- EDIT TEXT - TEAM");
         targetLayer.textItem.contents = argv3;
     } else {
         // Front Facting player

@@ -14,4 +14,4 @@ Key points to this project:
 - Rewrite index.html
 
 ## More Notes
-- Search for teams in Photoshop using regex. `(/\bTERMHERE/\b)`
+- July 31st is the cut-off date for preseason. After that, users cannot choose to add the preseason games.

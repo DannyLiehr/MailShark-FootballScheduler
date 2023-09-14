@@ -52,7 +52,7 @@ if (argv4=="Helmet"){
 app.doAction(act, actset);
 
   // Create a new file object for the PSD.
-  var saveFile = new File(argv8 + "/FootballPlayer " + argv9 +".png");
+  var saveFile = new File("~/Downloads/FootballPlayer " + argv1 +" "+ argv7 + ".png");
 
   // Create a new PhotoshopSaveOptions object.
   var saveOptions = new PNGSaveOptions();

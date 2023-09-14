@@ -27,7 +27,7 @@ function addSchedule(path){
 function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas) {
 
         fbOptions = JSON.parse(fbOptions);
-        // Create a new File object and specify the path to the file you want to read.
+         // Create a new File object and specify the path to the file you want to read.
         var file = new File(jsxPath);
         // Open the file for reading.
         file.open("r");
@@ -60,51 +60,60 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas) {
             // From here, relink the player file. We'll need to find a way to do that easily. Maybe name the object specifically in the INDD file?
             // var fbLink = app.activeDocument.links.itemByName("MS-player.psd");
             var links= app.activeDocument.links;
+            var groups = app.activeDocument.groups;
 
             for (var i = 0; i < links.length; i++) {
                 if (links[i].label == "fbPlayer"){
-                    links[i].relink(new File(playDir + "/FootballPlayer "+ curDate +".png"));
+                    // links[i].relink(new File(playDir + "/FootballPlayer "+ curDate +".png"));
+                    // new File("~/Downloads/FootballPlayer " + argv1 +" "+ argv3 + ".png");
+                    links[i].relink(new File("~/Downloads/FootballPlayer " + fbOptions.name +" "+ fbOptions.number + ".png"));
                 }
             }
+            // for (var i= 0; i < groups.length; i++){
+            //     if (groups[i].label== "18 Games"){
+            //         alert("Found 18 Games group.");
+            //         // groups[i].visible = !fbOptions.preseason;
+            //     }
+            //     if (groups[i].label== "20 Games"){
+            //         alert("Found 20 Games group.");
+            //         // groups[i].visible = !fbOptions.preseason;
+            //     }
+            // }
 
-            // $.sleep(1000);.
-            // alert("The player image is saved in a place that other artists can't access, so make sure to package this when you're done! Thanks.")
-
-            // If they chose no preseason, hide the 20 game objects and layers.
+            // hide all layers
+            app.activeDocument.layers.itemByName("Schedule - 18 Games").visible= false;
+            app.activeDocument.layers.itemByName("Schedule - 20 Games").visible= false;
+            app.activeDocument.groups.itemByName("18 Games").visible= false;
+            app.activeDocument.groups.itemByName("20 Games").visible= false;
 
             if (fbOptions.preseason == false){
-                // No preseason. So show the 18 games layer
+                // No preseason. So show only the 18 games layer
                 app.activeDocument.layers.itemByName("Schedule - 18 Games").visible= true;
-                // app.activeDocument.layers.itemByName("18 Games").visible= true;
-                app.activeDocument.layers.itemByName("Schedule - 20 Games").visible= false;
-                // app.activeDocument.layers.itemByName("20 Games").visible= false;
+                app.activeDocument.groups.itemByName("18 Games").visible= true;
             } else {
-                // Preseason on. Show the 20 games layer.
-                app.activeDocument.layers.itemByName("Schedule - 18 Games").visible= false;
-                // app.activeDocument.layers.itemByName("18 Games").visible= false;
+                // Preseason on. Show only the 20 games layer.
                 app.activeDocument.layers.itemByName("Schedule - 20 Games").visible= true;
-                // app.activeDocument.layers.itemByName("20 Games").visible= true;
+                app.activeDocument.groups.itemByName("20 Games").visible= true;
             }
-            // alert(app.activeDocument.layers.itemByName("Secondary Color").polygons.everyItem)
 
-            /* app.activeDocument.packageForPrint(
-                new File("~/Downloads"), // to: File
-                true, // Copy Links
-                true, // Copy Colour Profiles
-                true, // Update graphics
-                false, // Include Hidden Layers
-                true, // Ignore Preflight errors. Maybe switch to false idk
-                false, // Create report. Not needed here.
-                false, // Include IDML. Not necessary imo
-                true, // Include PDF
-                "[High Quality Print]", // PDF style
-                false, // Include Hyphenation
-                "Football Schedule", // Version Comments
-                [forceSave: true]
-            );
-            */
+            // app.activeDocument.packageForPrint(
+            //     new File("~/Downloads"), // to: File
+            //     true, // Copy Links
+            //     true, // Copy Colour Profiles
+            //     true, // Update graphics
+            //     false, // Include Hidden Layers
+            //     true, // Ignore Preflight errors. Maybe switch to false idk
+            //     false, // Create report. Not needed here.
+            //     false, // Include IDML. Not necessary imo
+            //     true, // Include PDF
+            //     "[High Quality Print]", // PDF style
+            //     false, // Include Hyphenation
+            //     "Football Schedule", // Version Comments
+            //     [forceSave: true]
+            // );
 
             // app.activeDocument.dataMergeProperties.mergeRecords();
+            alert("The football image you selected is currently placed in your Downloads folder. Please move this football image into your active project and re-link it when you are able to.")
 
         };
         // On error...

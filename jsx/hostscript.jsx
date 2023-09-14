@@ -60,7 +60,6 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas) {
             // From here, relink the player file. We'll need to find a way to do that easily. Maybe name the object specifically in the INDD file?
             // var fbLink = app.activeDocument.links.itemByName("MS-player.psd");
             var links= app.activeDocument.links;
-            var groups = app.activeDocument.groups;
 
             for (var i = 0; i < links.length; i++) {
                 if (links[i].label == "fbPlayer"){
@@ -69,16 +68,6 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas) {
                     links[i].relink(new File("~/Downloads/FootballPlayer " + fbOptions.name +" "+ fbOptions.number + ".png"));
                 }
             }
-            // for (var i= 0; i < groups.length; i++){
-            //     if (groups[i].label== "18 Games"){
-            //         alert("Found 18 Games group.");
-            //         // groups[i].visible = !fbOptions.preseason;
-            //     }
-            //     if (groups[i].label== "20 Games"){
-            //         alert("Found 20 Games group.");
-            //         // groups[i].visible = !fbOptions.preseason;
-            //     }
-            // }
 
             // hide all layers
             app.activeDocument.layers.itemByName("Schedule - 18 Games").visible= false;
@@ -110,9 +99,15 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas) {
             //     false, // Include Hyphenation
             //     "Football Schedule", // Version Comments
             //     [forceSave: true]
-            // );
+            // );  
+            var templateDoc= app.activeDocument;
 
-            // app.activeDocument.dataMergeProperties.mergeRecords();
+            app.activeDocument.dataMergeProperties.mergeRecords();
+            // app.activeDocument.dataMergeProperties.dataMergeFields.everyItem;
+
+            templateDoc.close(
+                SaveOptions.NO
+                );
             alert("The football image you selected is currently placed in your Downloads folder. Please move this football image into your active project and re-link it when you are able to.")
 
         };

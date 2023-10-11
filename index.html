@@ -29,14 +29,21 @@
                     <option class="spectrum-Picker-label" value="Helmet">Helmet</option>
                 </select>
                       <div class="spectrum-Form-item">
-                        <label for="teamNumber" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Number on Jersey </label><br>
-                        <input type="number" id="teamNumber" name="teamNumber">
+                        <label for="teamNumber" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Number on Jersey (2 digits only)</label><br>
+                        <input type="text" id="teamNumber" name="teamNumber" pattern="[^0-9]">
                         </div>
 
                 <div class="spectrum-Form-item" style="display:none;" id="textField">
                     <label for="teamText" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Name on Jersey (Back only)</label><br>
                     <input type="text" id="teamText" name="teamText">
                     </div>
+                    <label for="timezone" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Timezone</label><br>
+                <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" name="image_mode" id="timezone">
+                    <option class="spectrum-Picker-label" value="Eastern">Eastern Standard Time</option>
+                    <option class="spectrum-Picker-label" value="Central">Central Standard Time</option>
+                    <option class="spectrum-Picker-label" value="Mountain">Mountain Standard Time</option>
+                    <option class="spectrum-Picker-label" value="Pacific">Pacific Standard Time</option>
+                </select>
         <button class="spectrum-Button spectrum-Button--outline spectrum-Button--primary spectrum-Button--sizeS" id="generate" style="margin-top:2em;">
             <span class="spectrum-Button-label">Generate Schedule</span>
           </button>
@@ -121,7 +128,9 @@
             $("#textField").hide();
         }
     }
-
+    $("#teamNumber").on("keyup", function () {
+                    $(this).val($(this).val().replace(/[^0-9.]/g, '').replace(/(..*?)/g, '$1').slice(0,2));
+    });
 </script>
 
 </html>

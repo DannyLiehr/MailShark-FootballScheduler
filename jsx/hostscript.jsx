@@ -19,12 +19,15 @@ function addSchedule(path){
       app.activeDocument.dataMergeProperties.removeDataSource(); 
       // Adds the data source of the selected team based on their path. 
       app.activeDocument.dataMergeProperties.selectDataSource(path);  
+      // Find a way to grab a specific entry??? 
     } catch(e){
         alert(e);
     }
 }
 
-function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas) {
+talkToPhotoshop('/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/jsx/exec_photoshop.jsx', '{"name":"Arizona Cardinals","preseason":false,"text":"","type":"Front","number":23}', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/actions', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/templates', 'without', '1', '/Users/csetuser/Downloads/example.pdf')
+
+function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeIndex, dest) {
 
         fbOptions = JSON.parse(fbOptions);
          // Create a new File object and specify the path to the file you want to read.
@@ -85,30 +88,39 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas) {
                 app.activeDocument.groups.itemByName("20 Games").visible= true;
             }
 
-            // app.activeDocument.packageForPrint(
-            //     new File("~/Downloads"), // to: File
-            //     true, // Copy Links
-            //     true, // Copy Colour Profiles
-            //     true, // Update graphics
-            //     false, // Include Hidden Layers
-            //     true, // Ignore Preflight errors. Maybe switch to false idk
-            //     false, // Create report. Not needed here.
-            //     false, // Include IDML. Not necessary imo
-            //     true, // Include PDF
-            //     "[High Quality Print]", // PDF style
-            //     false, // Include Hyphenation
-            //     "Football Schedule", // Version Comments
-            //     [forceSave: true]
-            // );  
-            var templateDoc= app.activeDocument;
+            $.writeln("AAAA")
 
-            app.activeDocument.dataMergeProperties.mergeRecords();
-            // app.activeDocument.dataMergeProperties.dataMergeFields.everyItem;
+                // Get active document
+                var doc = app.activeDocument;
+                
+                try {
+                    var filePath= doc.fullName;
+                } catch (e) {
+                    alert("Save yo document, foo!")
+                    return;
+                }
 
-            templateDoc.close(
-                SaveOptions.NO
-                );
-            alert("The football image you selected is currently placed in your Downloads folder. Please move this football image into your active project and re-link it when you are able to.")
+                $.writeln(filePath)
+                
+                // File paths
+                var source = File(filePath);
+                var destination = File(dest);
+                var sourceData = File("/Users/csetuser/Documents/example.csv");
+
+                // Open the document
+                var doc = app.open(source);
+
+                // Data merge settings
+                doc.dataMergeProperties.selectDataSource(sourceData);
+                doc.dataMergeProperties.dataMergePreferences.recordSelection = RecordSelection.ONE_RECORD;
+                // What record do we want?
+                doc.dataMergeProperties.dataMergePreferences.recordNumber = parseInt(mergeIndex);
+                app.dataMergeOptions.removeBlankLines = true;  
+
+
+                // Perform merge.
+                doc.dataMergeProperties.exportFile(destination, "[High Quality Print]", ); 
+
 
         };
         // On error...
@@ -118,5 +130,7 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas) {
         // Bombs away...
         alert("Photoshop is about to open to generate a schedule image. You may need to click on it on the dock to continue generating a schedule.");
         bt.send();
+
+        //
 
 }

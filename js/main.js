@@ -4,6 +4,7 @@
 const fs = require("fs");
 const https = require('https');
 const path = require("path");
+const csv=require('csvtojson')
 
 function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
@@ -55,6 +56,8 @@ function getKeyByValue(object, value) {
             
                 const teamPath = path.join(__dirname, `CSV/${selectedTeam.name}.csv`);
                 csInterface.evalScript(`addSchedule("${teamPath}")`);
+                
+
                 // return console.log($('#preseason').find(":selected").val() == "on" ? true : false);
                 // {name: "Arizona Cardinals", val: "Arizona Cardinals", col1: Array(4), col2: Array(4), col3: Array(4)}
                 // return console.log("'" + $('input[name="teamNumber"]').val() + "'");
@@ -65,8 +68,51 @@ function getKeyByValue(object, value) {
                     type:       $('select#image_mode option:selected').val(),
                     number:     $('input[name="teamNumber"]').val()== "" ? (new Date().getFullYear() % 100) : $('input[name="teamNumber"]').val() // Grabs the last 2 digits of the current Year
                 }
-                // jsxPath, fbOptions, actDir, playDir
-                csInterface.evalScript(`talkToPhotoshop("${path.join(__dirname, "jsx", "exec_photoshop.jsx")}", '${JSON.stringify(fbObject)}', "${path.join(__dirname, "actions")}", "${path.join(__dirname, "templates")}")`);
+                let jsonObj = await csv().fromFile("/Users/csetuser/Documents/example.csv");
+
+                console.log(jsonObj);
+
+                let tz = $("#timezone").val();                
+                let preEnabled= fbObject.preseason == true ? "with" : "without";
+
+                var mergeIndex;
+                jsonObj.forEach((row, i) => {
+                    if (row["time zone"] == tz && row.preseason == preEnabled) {
+                        mergeIndex = i
+                        return;
+                    }
+                })
+                
+                // console.log(`talkToPhotoshop(
+                // "${path.join(__dirname, "jsx", "exec_photoshop.jsx")}",
+                // '${JSON.stringify(fbObject)}', 
+                // "${path.join(__dirname, "actions")}", 
+                // "${path.join(__dirname, "templates")}",
+                // ${preEnabled},
+                // ${mergeIndex},
+                // "/Users/csetuser/Downloads/example.pdf"
+                // )`)
+
+                    
+                const args = [
+                    path.join(__dirname, "jsx", "exec_photoshop.jsx"),
+                    JSON.stringify(fbObject),
+                    path.join(__dirname, "actions") ,
+                    path.join(__dirname, "templates"),
+                    preEnabled,
+                    mergeIndex,
+                    "/Users/csetuser/Downloads/example.pdf"
+                ];
+
+                const evalThis = `talkToPhotoshop('${args.join("', '")}')`
+                console.log(evalThis)
+                    // csInterface.evalScript(`doDataMerge(${mergeIndex}, "/Users/csetuser/Downloads/example.pdf", "${teamPath}")`);
+                // jsxPath, fbOptions, actDir, playDir, preseas, mergeIndex, dest
+                csInterface.evalScript(evalThis);
+
+
+
+
             } catch (e){
                 csInterface.evalScript(`alert("${e}\nPlease email Danny and explain what you put into the extension! Thanks. 🌟")`);               
             }

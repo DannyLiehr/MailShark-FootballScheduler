@@ -54,7 +54,7 @@ function getKeyByValue(object, value) {
                 csInterface.evalScript(`changeColour("Secondary", "${selectedTeam.col2[0]}", "${selectedTeam.col2[1]}","${selectedTeam.col2[2]}","${selectedTeam.col2[3]}")`);
                 csInterface.evalScript(`changeColour("Tertiary", "${selectedTeam.col3[0]}", "${selectedTeam.col3[1]}","${selectedTeam.col3[2]}","${selectedTeam.col3[3]}")`);
             
-                const teamPath = path.join(__dirname, `CSV/${selectedTeam.name}.csv`);
+                const teamPath = path.join(__dirname, `./CSV/${selectedTeam.name}.csv`);
                 csInterface.evalScript(`addSchedule("${teamPath}")`);
                 
 
@@ -68,7 +68,9 @@ function getKeyByValue(object, value) {
                     type:       $('select#image_mode option:selected').val(),
                     number:     $('input[name="teamNumber"]').val()== "" ? (new Date().getFullYear() % 100) : $('input[name="teamNumber"]').val() // Grabs the last 2 digits of the current Year
                 }
-                let jsonObj = await csv().fromFile("/Users/csetuser/Documents/example.csv");
+                // let jsonObj = await csv().fromFile("/Users/csetuser/Documents/example.csv");
+                // return console.log(path.join(__dirname, "CSV", `${fbObject.name}.csv`))
+                let jsonObj = await csv().fromFile(path.join(__dirname, "CSV", `${fbObject.name}.csv`));
 
                 console.log(jsonObj);
 
@@ -83,16 +85,9 @@ function getKeyByValue(object, value) {
                     }
                 })
                 
-                // console.log(`talkToPhotoshop(
-                // "${path.join(__dirname, "jsx", "exec_photoshop.jsx")}",
-                // '${JSON.stringify(fbObject)}', 
-                // "${path.join(__dirname, "actions")}", 
-                // "${path.join(__dirname, "templates")}",
-                // ${preEnabled},
-                // ${mergeIndex},
-                // "/Users/csetuser/Downloads/example.pdf"
-                // )`)
-
+                    var dest= `~/Downloads/${fbObject.name} ${fbObject.number}.pdf`;
+                    // var csvdest= "/CSV/" + fbOptions.name + ".csv" 
+                    var csvdest= path.join(__dirname, "CSV", `${fbObject.name}.csv`);
                     
                 const args = [
                     path.join(__dirname, "jsx", "exec_photoshop.jsx"),
@@ -101,7 +96,8 @@ function getKeyByValue(object, value) {
                     path.join(__dirname, "templates"),
                     preEnabled,
                     mergeIndex,
-                    "/Users/csetuser/Downloads/example.pdf"
+                    dest,
+                    csvdest
                 ];
 
                 const evalThis = `talkToPhotoshop('${args.join("', '")}')`

@@ -1,7 +1,7 @@
 //Code you want to execute
-var act = argv1 + " (" + argv4 + ")";
-var actset;
-var fileSelect;
+var act = argv1 + " (" + argv4 + ")"; // Photoshop Action name
+var actset; // Which Action folder to use.
+var fileSelect; // 
 var targetLayer;
 switch(argv4){
     case "Front":

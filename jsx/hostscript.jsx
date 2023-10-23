@@ -27,7 +27,7 @@ function addSchedule(path){
 
 talkToPhotoshop('/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/jsx/exec_photoshop.jsx', '{"name":"Arizona Cardinals","preseason":false,"text":"","type":"Front","number":23}', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/actions', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/templates', 'without', '1', '/Users/csetuser/Downloads/example.pdf')
 
-function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeIndex, dest) {
+function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeIndex, dest, csv) {
 
         fbOptions = JSON.parse(fbOptions);
          // Create a new File object and specify the path to the file you want to read.
@@ -93,20 +93,27 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
                 // Get active document
                 var doc = app.activeDocument;
                 
-                try {
-                    var filePath= doc.fullName;
-                } catch (e) {
-                    alert("Save yo document, foo!")
-                    return;
+                // try {
+                //     var filePath= doc.fullName;
+                // } catch (e) {
+                //     alert("Please save your document.")
+                //     return;
+                // }
+
+                // Don't give them the choice; they MUST save.
+                while (!doc.fullName){
+                    alert("Please save your file in case of later use, and so the data merge may commence.");
+                    doc.save();
                 }
 
-                $.writeln(filePath)
+                var filePath= doc.fullName;
+
+                
                 
                 // File paths
                 var source = File(filePath);
                 var destination = File(dest);
-                var sourceData = File("/Users/csetuser/Documents/example.csv");
-
+                var sourceData = File(csv);
                 // Open the document
                 var doc = app.open(source);
 
@@ -119,8 +126,9 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
 
 
                 // Perform merge.
-                doc.dataMergeProperties.exportFile(destination, "[High Quality Print]", ); 
-
+                doc.dataMergeProperties.exportFile(destination, "[High Quality Print]", );
+                 
+                alert("Your PDF has been merged and saved to your Downloads folder. Please move this PDF to your active project folder before placing it.")
 
         };
         // On error...

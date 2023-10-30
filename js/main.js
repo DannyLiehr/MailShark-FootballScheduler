@@ -18,6 +18,23 @@ function getKeyByValue(object, value) {
     function init() {
                 
         initColors();
+
+        // Run function from hostscript to see if the indd is a compact schedule or not.
+        /*
+        <option class="spectrum-Picker-label" value="Front" selected>Front Facing Player</option>
+        <option class="spectrum-Picker-label" value="Back">Back Facing Player</option>
+        <option class="spectrum-Picker-label" value="Helmet">Helmet</option>
+        */
+
+        csInterface.evalScript(`isCompact()`);
+       
+        // if (csInterface.evalScript(`isCompact()`)){
+        //     // If we ran isCompact and it returned true...
+        //     $("#image_mode").append('<option class="spectrum-Picker-label" value="Helmet">Helmet</option>')
+        // } else {
+        //     // This is NOT a compact schedule.
+        //     $("#image_mode").append('<option class="spectrum-Picker-label" value="Front" selected>Front Facing Player</option><option class="spectrum-Picker-label" value="Back">Back Facing Player</option>')
+        // }
                 
         $("#generate").click(async function () {
             event.preventDefault();

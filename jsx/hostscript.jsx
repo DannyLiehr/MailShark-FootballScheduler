@@ -13,6 +13,12 @@ function changeColour(type, c,m,y,k){
     
 }
 
+function isCompact(){
+    // return app.activeDocument.layers.itemByName("Helmet");
+    var checkType= app.activeDocument.layers.itemByName("Helmet");
+    if (typeof )
+}
+
 function addSchedule(path){
     try{
       // Removes the current data source to put our own in
@@ -25,7 +31,7 @@ function addSchedule(path){
     }
 }
 
-talkToPhotoshop('/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/jsx/exec_photoshop.jsx', '{"name":"Arizona Cardinals","preseason":false,"text":"","type":"Front","number":23}', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/actions', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/templates', 'without', '1', '/Users/csetuser/Downloads/example.pdf')
+// talkToPhotoshop('/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/jsx/exec_photoshop.jsx', '{"name":"Arizona Cardinals","preseason":false,"text":"","type":"Front","number":23}', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/actions', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/templates', 'without', '1', '~/Downloads/example.pdf', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/CSV/Arizona Cardinals.csv')
 
 function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeIndex, dest, csv) {
 
@@ -88,7 +94,6 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
                 app.activeDocument.groups.itemByName("20 Games").visible= true;
             }
 
-            $.writeln("AAAA")
 
                 // Get active document
                 var doc = app.activeDocument;
@@ -101,10 +106,10 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
                 // }
 
                 // Don't give them the choice; they MUST save.
-                while (!doc.fullName){
+                do{
                     alert("Please save your file in case of later use, and so the data merge may commence.");
                     doc.save();
-                }
+                }while (!doc.fullName);
 
                 var filePath= doc.fullName;
 

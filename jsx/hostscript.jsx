@@ -4,6 +4,14 @@
 
 
 // three functions because the arguments on mainjs would look insane
+/**
+    * Changes the swatch colours on the document.
+    @param {string} c Cyan
+    @param {string} m Magenta
+    @param {string} y Yellow
+    @param {string} k Key/Black
+
+*/
 function changeColour(type, c,m,y,k){
     try{
         app.activeDocument.colors.item(type+ " Color").colorValue = [parseInt(c),parseInt(m),parseInt(y),parseInt(k)]; // CMYK. Hardcode: [100,50,0,0]
@@ -13,8 +21,11 @@ function changeColour(type, c,m,y,k){
     
 }
 
+/**
+    * Changes the data source for the team on the document.
+    @param {string} path CSV path for the selected team.
 
-// isCompact();
+*/
 function addSchedule(path){
     try{
       // Removes the current data source to put our own in
@@ -27,8 +38,18 @@ function addSchedule(path){
     }
 }
 
-// talkToPhotoshop('/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/jsx/exec_photoshop.jsx', '{"name":"Arizona Cardinals","preseason":false,"text":"","type":"Front","number":23}', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/actions', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/templates', 'without', '1', '~/Downloads/example.pdf', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/CSV/Arizona Cardinals.csv')
+/**
+    * Launches Photoshop, makes actions happen, places the file and merges out the document.
+    @param {string} jsxpath Path to exec_photoshop.jsx
+    @param {string} fbOptions Stringified JSON of the football team & data necessary to create the files.
+    @param {string} actDir Path to "actions" directory
+    @param {string} playDir Path to "templates" directory
+    @param {string} preseas Whether or not preseason is enabled
+    @param {string} mergeIndex Which row of the CSV to merge out into a single page document
+    @param {string} dest The user's downloads folder to save the PDF to
+    @param {string} csv Path to "CSV" directory
 
+*/
 function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeIndex, dest, csv) {
     fbOptions = JSON.parse(fbOptions);
         // Check for what template is being used. If the template and image choice is incompatible, don't let the photoshop talk start.
@@ -36,7 +57,7 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
 
         var imageCompatible = true;
         for (var i = 0; i < links.length; i++) {
-            if ((links[i].label == "fbPlayer" && fbOptions.type == "Helmet") || (links[i].label == "helmet" && fbOptions.type != "Helmet")){
+            if ((links[i].label == "fbPlayer" && fbOptions.type == "Helmet") || (links[i].label == "helmet" && fbOptions.type !== "Helmet")){
                 alert("Error: The selected image mode does not match this schedule's template.");
                 imageCompatible= false;
                 break;
@@ -74,12 +95,9 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
            bt.body = params + fileContents;
            // On success...
            bt.onResult = function (msg) {
-               // From here, relink the player file. We'll need to find a way to do that easily. Maybe name the object specifically in the INDD file?
-               // var fbLink = app.activeDocument.links.itemByName("MS-player.psd");
-
-   
+               // From here, relink the player file. Iterate through all links and look for our labelled ones. They're labelled through a script so people can use the same template to change the team, in the event of a mis-click.
                for (var i = 0; i < links.length; i++) {
-                   if (links[i].label == "fbPlayer"){
+                   if (links[i].label == "fbPlayer" || links[i].label == "helmet"){
                        // links[i].relink(new File(playDir + "/FootballPlayer "+ curDate +".png"));
                        // new File("~/Downloads/FootballPlayer " + argv1 +" "+ argv3 + ".png");
                        links[i].relink(new File("~/Downloads/FootballPlayer " + fbOptions.name +" "+ fbOptions.number + ".png"));
@@ -117,7 +135,7 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
                    do{
                        alert("Please save your file in case of later use, and so the data merge may commence.");
                        doc.save();
-                   }while (!doc.fullName);
+                   } while (!doc.fullName);
    
                    var filePath= doc.fullName;
    

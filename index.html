@@ -19,13 +19,13 @@
                     <option class="spectrum-Picker-label" value="Back">Back Facing Player (Default Only)</option>
                     <option class="spectrum-Picker-label" value="Helmet">Helmet (Compact Only)</option>
                 </select>
-                      <div class="spectrum-Form-item">
-                        <label for="teamNumber" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Number on Jersey (2 digits only)</label><br>
+                      <div class="spectrum-Form-item" id="numberField">
+                        <label for="teamNumber" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Number on Jersey (2 digits max)</label><br>
                         <input type="text" id="teamNumber" name="teamNumber" pattern="[^0-9]">
                         </div>
 
                 <div class="spectrum-Form-item" style="display:none;" id="textField">
-                    <label for="teamText" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Name on Jersey (Back only)</label><br>
+                    <label for="teamText" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Name on Jersey (12 characters max)</label><br>
                     <input type="text" id="teamText" name="teamText">
                     </div>
                     <label for="timezone" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Timezone</label><br>
@@ -126,23 +126,26 @@
         if ($("#image_mode").val()== "Back"){
             // They chose the back text. So show the teamText.
             $("#textField").show();
-            $("#teamNumber").show();
+            $("#numberField").show();
         } else if ($("#image_mode").val()== "Helmet"){
             // Helmet
             $("#textField").hide();
-            $("#teamNumber").hide();
+            $("#numberField").hide();
         } else {
             // Front Player.  
             $("#textField").hide();
-            $("#teamNumber").show();
+            $("#numberField").show();
         }
     }
     $("#teamNumber").on("keyup", function () {
-                    $(this).val($(this).val().replace(/[^0-9.]/g, '').replace(/(..*?)/g, '$1').slice(0,2));
+        $(this).val($(this).val().replace(/[^0-9.]/g, '').replace(/(..*?)/g, '$1').slice(0,2));
     });
     $("#teams").change(function(){
         let result = footballTeams.filter((team) => team.name == $("#teams").val());
         $("#timezone").val(result[0].tz).change();
+    });
+    $("#teamText").on("change paste keyup keydown", function(){
+        $(this).val($(this).val().slice(0,12));
     });
 </script>
 

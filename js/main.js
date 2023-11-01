@@ -18,37 +18,16 @@ function getKeyByValue(object, value) {
     function init() {
                 
         initColors();
-
-        // Run function from hostscript to see if the indd is a compact schedule or not.
-        /*
-        <option class="spectrum-Picker-label" value="Front" selected>Front Facing Player</option>
-        <option class="spectrum-Picker-label" value="Back">Back Facing Player</option>
-        <option class="spectrum-Picker-label" value="Helmet">Helmet</option>
-        */
-        
-       
-        // if (csInterface.evalScript(`isCompact()`)){
-        //     // If we ran isCompact and it returned true...
-        //     $("#image_mode").append('<option class="spectrum-Picker-label" value="Helmet">Helmet</option>')
-        // } else {
-        //     // This is NOT a compact schedule.
-        //     $("#image_mode").append('<option class="spectrum-Picker-label" value="Front" selected>Front Facing Player</option><option class="spectrum-Picker-label" value="Back">Back Facing Player</option>')
-        // }
                 
         $("#generate").click(async function () {
             event.preventDefault();
             
-            // var selectItem= $("select#teams option:selected").val();
+            // The team the user has chosen.
             var selectItem= $("select#teams option:selected").val();
-            // return console.log(selectItem);
-            var selectedTeam= new Array();
-            for (i in footballTeams){
-                if (footballTeams[i].name == selectItem){
-                    // We got a match. No "} else {" because it'll skip anyway.
-                    selectedTeam = footballTeams[i];
-                    break;
-                }
-            }
+
+            // Find the array that matches the user's chosen team.
+            var selectedTeam = footballTeams.find((team) => team.name == selectItem );
+
             try{
                 // Let's add to the object, since JS is terrible and lets you do that.
                 if ($("#teamName").text()){
@@ -72,11 +51,7 @@ function getKeyByValue(object, value) {
             
                 const teamPath = path.join(__dirname, `./CSV/${selectedTeam.name}.csv`);
                 csInterface.evalScript(`addSchedule("${teamPath}")`);
-                
 
-                // return console.log($('#preseason').find(":selected").val() == "on" ? true : false);
-                // {name: "Arizona Cardinals", val: "Arizona Cardinals", col1: Array(4), col2: Array(4), col3: Array(4)}
-                // return console.log("'" + $('input[name="teamNumber"]').val() + "'");
                 var fbObject={
                     name:       selectedTeam.name,
                     preseason:  $('#preseason').find(":selected").val() == "on" ? true : false,
@@ -84,11 +59,8 @@ function getKeyByValue(object, value) {
                     type:       $('select#image_mode option:selected').val(),
                     number:     $('input[name="teamNumber"]').val()== "" ? (new Date().getFullYear() % 100) : $('input[name="teamNumber"]').val() // Grabs the last 2 digits of the current Year
                 }
-                // let jsonObj = await csv().fromFile("/Users/csetuser/Documents/example.csv");
-                // return console.log(path.join(__dirname, "CSV", `${fbObject.name}.csv`))
-                let jsonObj = await csv().fromFile(path.join(__dirname, "CSV", `${fbObject.name}.csv`));
 
-                console.log(jsonObj);
+                let jsonObj = await csv().fromFile(path.join(__dirname, "CSV", `${fbObject.name}.csv`));
 
                 let tz = $("#timezone").val();                
                 let preEnabled= fbObject.preseason == true ? "with" : "without";
@@ -102,7 +74,6 @@ function getKeyByValue(object, value) {
                 })
                 
                     var dest= `~/Downloads/${fbObject.name} ${fbObject.number}.pdf`;
-                    // var csvdest= "/CSV/" + fbOptions.name + ".csv" 
                     var csvdest= path.join(__dirname, "CSV", `${fbObject.name}.csv`);
                     
                 const args = [
@@ -116,10 +87,7 @@ function getKeyByValue(object, value) {
                     csvdest
                 ];
 
-                const evalThis = `talkToPhotoshop('${args.join("', '")}')`
-                console.log(evalThis)
-                    // csInterface.evalScript(`doDataMerge(${mergeIndex}, "/Users/csetuser/Downloads/example.pdf", "${teamPath}")`);
-                // jsxPath, fbOptions, actDir, playDir, preseas, mergeIndex, dest
+                const evalThis = `talkToPhotoshop('${args.join("', '")}')`;
                 csInterface.evalScript(evalThis);
 
 

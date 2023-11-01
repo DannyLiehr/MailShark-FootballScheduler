@@ -1,5 +1,6 @@
 //Code you want to execute
 var act = argv1 + " (" + argv4 + ")"; // Photoshop Action name
+alert(act);
 var actset; // Which Action folder to use.
 var fileSelect; // 
 var targetLayer;

@@ -4,10 +4,7 @@
 <meta charset="utf-8">
 <link id="ccstyleTheme" href="css/styles-dark.css" rel="stylesheet" type="text/css" /> 
 <link id="hostStyle" rel="stylesheet" href="css/styles.css"/>
-
-
 <title>Football Scheduler</title>
-
 </head>
 
 <body require-nodejs style="padding: .5em;">
@@ -15,18 +12,12 @@
                 <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="teams" name="teams">
                 </select>
                 <hr class="spectrum-Divider spectrum-Divider--sizeS">
-                <div id="preseasonitem">
-                    <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="preseason" name="preseason">
-                    </select><br>
-                    <small>If it's after July, Preseason is disabled.</small>
-                    <hr class="spectrum-Divider spectrum-Divider--sizeS">                    
-                </div>
 
                 <label for="image_mode" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Image Mode</label><br>
                 <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" name="image_mode" id="image_mode" onchange="nameForm()">
-                    <!-- <option class="spectrum-Picker-label" value="Front" selected>Front Facing Player</option>
-                    <option class="spectrum-Picker-label" value="Back">Back Facing Player</option>
-                    <option class="spectrum-Picker-label" value="Helmet">Helmet</option> -->
+                    <option class="spectrum-Picker-label" value="Front" selected>Front Facing Player (Default Only)</option>
+                    <option class="spectrum-Picker-label" value="Back">Back Facing Player (Default Only)</option>
+                    <option class="spectrum-Picker-label" value="Helmet">Helmet (Compact Only)</option>
                 </select>
                       <div class="spectrum-Form-item">
                         <label for="teamNumber" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Number on Jersey (2 digits only)</label><br>
@@ -44,10 +35,17 @@
                     <option class="spectrum-Picker-label" value="Mountain">Mountain Standard Time</option>
                     <option class="spectrum-Picker-label" value="Pacific">Pacific Standard Time</option>
                 </select>
+
+         <div id="preseasonitem">
+            <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="preseason" name="preseason">
+            </select><br>               
+        </div>
+            <div style="display:block"><small id="preseasonsplash"></small></div>
+
         <button class="spectrum-Button spectrum-Button--outline spectrum-Button--primary spectrum-Button--sizeS" id="generate" style="margin-top:2em;">
             <span class="spectrum-Button-label">Generate Schedule</span>
           </button>
-
+ 
     <div style="display:block; margin-top:2em;">
             <br>
             <span class="debuglink" id="reload">Reload</span>
@@ -119,14 +117,24 @@
         $("#preEnabled").attr("disabled", true)
         $("#preDisabled").attr("selected", true);
         $("#preseasonitem").hide()
-    }
+        $("#preseasonsplash").text("After July 31st, preseason is automatically disabled.")
+    } else {
+        $("#preseasonsplash").text("If the pieces may not hit homes by July 31st, talk to the CSM about whether preseason should be enabled.")
+    } 
 
     function nameForm(){
         if ($("#image_mode").val()== "Back"){
             // They chose the back text. So show the teamText.
             $("#textField").show();
-        } else {
+            $("#teamNumber").show();
+        } else if ($("#image_mode").val()== "Helmet"){
+            // Helmet
             $("#textField").hide();
+            $("#teamNumber").hide();
+        } else {
+            // Front Player.  
+            $("#textField").hide();
+            $("#teamNumber").show();
         }
     }
     $("#teamNumber").on("keyup", function () {

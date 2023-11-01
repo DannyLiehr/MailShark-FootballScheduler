@@ -25,8 +25,7 @@ function getKeyByValue(object, value) {
         <option class="spectrum-Picker-label" value="Back">Back Facing Player</option>
         <option class="spectrum-Picker-label" value="Helmet">Helmet</option>
         */
-
-        csInterface.evalScript(`isCompact()`);
+        
        
         // if (csInterface.evalScript(`isCompact()`)){
         //     // If we ran isCompact and it returned true...
@@ -38,7 +37,7 @@ function getKeyByValue(object, value) {
                 
         $("#generate").click(async function () {
             event.preventDefault();
-
+            
             // var selectItem= $("select#teams option:selected").val();
             var selectItem= $("select#teams option:selected").val();
             // return console.log(selectItem);

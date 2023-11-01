@@ -1,5 +1,6 @@
 # Indesign Football Scheduler
 [![Version](https://img.shields.io/badge/version-v1.0.0-blue.svg)](https://github.com/DannyLiehr/MailShark-FootballScheduler)
+
 This extension automatically sets team name, team swatches, player image and merges a single page document. The end result is a football schedule with the user's selected team swatch, jersey name (if applicable), jersey number, and timezone.
 
 ## Documentation

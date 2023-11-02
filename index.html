@@ -47,7 +47,7 @@
         </div>
             <div style="display:block"><small id="preseasonsplash"></small></div>
 
-        <button class="spectrum-Button spectrum-Button--outline spectrum-Button--primary spectrum-Button--sizeS" id="generate" style="margin-top:2em;">
+        <button class="spectrum-Button spectrum-Button--outline spectrum-Button--primary spectrum-Button--sizeS" id="generate" style="margin-top:2em;display:none;">
             <span class="spectrum-Button-label">Generate Schedule</span>
           </button>
  <hr>
@@ -137,6 +137,26 @@
             $("#numberField").show();
         }
     }
+    function verifySubmit(){
+       let mode= $("#image_mode").val();
+       let isEnabled= false;
+       if (mode == "Helmet"){
+        // Helmet
+        isEnabled= true;
+       } else if (mode == "Back"){
+        // Back
+        isEnabled= $("#teamText").val();
+       } else {
+        // Front
+        isEnabled= true;
+       }
+       if (isEnabled){
+        $("#generate").show();
+       } else {
+        $("#generate").hide();
+       }
+    }
+
     $("#teamNumber").on("keyup", function () {
         $(this).val($(this).val().replace(/[^0-9.]/g, '').replace(/(..*?)/g, '$1').slice(0,2));
     });
@@ -148,15 +168,9 @@
         $(this).val($(this).val().slice(0,12));
     });
     $("body").on("change", function(){
-       let mode= $("#image_mode").val();
-       if (mode == "Helmet"){
-
-       } else if (mode == "Back"){
-
-       } else {
-        // Front
-       }
+       verifySubmit();
     });
+    verifySubmit();
 
 </script>
 

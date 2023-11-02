@@ -45,6 +45,8 @@ function getKeyByValue(object, value) {
                 selectedTeam.teamNumber= $("#teamNumber").text();
             }
 
+            if($('input[name="teamText"]').val()== "" && $("#image_mode").val()== "Back") return alert("We cannot generate a schedule with a back facing player until the jersey name blank is filled out.")
+
                 csInterface.evalScript(`changeColour("Primary", "${selectedTeam.col1[0]}", "${selectedTeam.col1[1]}","${selectedTeam.col1[2]}","${selectedTeam.col1[3]}")`);
                 csInterface.evalScript(`changeColour("Secondary", "${selectedTeam.col2[0]}", "${selectedTeam.col2[1]}","${selectedTeam.col2[2]}","${selectedTeam.col2[3]}")`);
                 csInterface.evalScript(`changeColour("Tertiary", "${selectedTeam.col3[0]}", "${selectedTeam.col3[1]}","${selectedTeam.col3[2]}","${selectedTeam.col3[3]}")`);
@@ -55,7 +57,7 @@ function getKeyByValue(object, value) {
                 var fbObject={
                     name:       selectedTeam.name,
                     preseason:  $('#preseason').find(":selected").val() == "on" ? true : false,
-                    text:       $('input[name="teamText"]').val() || "",
+                    text:       $('input[name="teamText"]').val(), // Swich that default to something else?
                     type:       $('select#image_mode option:selected').val(),
                     number:     $('input[name="teamNumber"]').val()== "" ? (new Date().getFullYear() % 100) : $('input[name="teamNumber"]').val() // Grabs the last 2 digits of the current Year
                 }

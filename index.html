@@ -5,14 +5,19 @@
 <link id="ccstyleTheme" href="css/styles-dark.css" rel="stylesheet" type="text/css" /> 
 <link id="hostStyle" rel="stylesheet" href="css/styles.css"/>
 <title>Football Scheduler</title>
+<style>
+    hr{
+        border-width: thin;
+    }
+</style>
 </head>
 
 <body require-nodejs style="padding: .5em;">
+    <p>The "Generate Schedule" button will only appear once as necessary information is filled out.</p>
         <label for="teams" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Football Team </label>
                 <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="teams" name="teams">
                 </select>
-                <hr class="spectrum-Divider spectrum-Divider--sizeS">
-
+                <br>
                 <label for="image_mode" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Image Mode</label><br>
                 <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" name="image_mode" id="image_mode" onchange="nameForm()">
                     <option class="spectrum-Picker-label" value="Front" selected>Front Facing Player (Default Only)</option>
@@ -45,9 +50,9 @@
         <button class="spectrum-Button spectrum-Button--outline spectrum-Button--primary spectrum-Button--sizeS" id="generate" style="margin-top:2em;">
             <span class="spectrum-Button-label">Generate Schedule</span>
           </button>
- 
+ <hr>
     <div style="display:block; margin-top:2em;">
-            <br>
+            <h2>Nerd Stuff</h2>
             <span class="debuglink" id="reload">Reload</span>
             <span class="debuglink" id="debug">Debug</span>
             <span class="debuglink" id="sources">Sources</span>        
@@ -102,11 +107,6 @@
         $('#teams').append(`<option class="spectrum-Picker-label" style="width: 35.9453px;">${footballTeams[i].name}</option>`);
     }
 
-    /*
-    <option class="spectrum-Picker-label is-placeholder">Preseason On</option>
-    <option class="spectrum-Picker-label is-placeholder">Preseason Off</option>
-    */
-
     // Cutoff Preseason Date: July 31st.
     let preseasonEnabled= new Date().getMonth() + 1 <= 6 ? true : false; // Preseason Allowed = Current Month on or before July ? Yes if so : No if not
 
@@ -125,15 +125,15 @@
     function nameForm(){
         if ($("#image_mode").val()== "Back"){
             // They chose the back text. So show the teamText.
-            $("#textField").show();
+            $("#textField").show().prop('required',true);
             $("#numberField").show();
         } else if ($("#image_mode").val()== "Helmet"){
             // Helmet
-            $("#textField").hide();
+            $("#textField").hide().prop('required',false);
             $("#numberField").hide();
         } else {
             // Front Player.  
-            $("#textField").hide();
+            $("#textField").hide().prop('required',false);
             $("#numberField").show();
         }
     }
@@ -147,6 +147,17 @@
     $("#teamText").on("change paste keyup keydown", function(){
         $(this).val($(this).val().slice(0,12));
     });
+    $("body").on("change", function(){
+       let mode= $("#image_mode").val();
+       if (mode == "Helmet"){
+
+       } else if (mode == "Back"){
+
+       } else {
+        // Front
+       }
+    });
+
 </script>
 
 </html>

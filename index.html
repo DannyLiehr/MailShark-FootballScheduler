@@ -9,48 +9,59 @@
     hr{
         border-width: thin;
     }
+    .formoption{
+        margin-top: 2em;
+    }
 </style>
 </head>
 
 <body require-nodejs style="padding: .5em;">
     <p>The "Generate Schedule" button will only appear once as necessary information is filled out.</p>
+    <div class="formoption">
         <label for="teams" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Football Team </label>
                 <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="teams" name="teams">
                 </select>
-                <br>
-                <label for="image_mode" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Image Mode</label><br>
+    </div>
+    <div class="formoption">
+        <label for="image_mode" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Image Mode</label><br>
                 <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" name="image_mode" id="image_mode" onchange="nameForm()">
                     <option class="spectrum-Picker-label" value="Front" selected>Front Facing Player (Default Only)</option>
                     <option class="spectrum-Picker-label" value="Back">Back Facing Player (Default Only)</option>
                     <option class="spectrum-Picker-label" value="Helmet">Helmet (Compact Only)</option>
                 </select>
-                      <div class="spectrum-Form-item" id="numberField">
+    </div>
+    <div class="formoption">
+        <div class="spectrum-Form-item" id="numberField">
                         <label for="teamNumber" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Number on Jersey (2 digits max)</label><br>
                         <input type="text" id="teamNumber" name="teamNumber" pattern="[^0-9]">
                         </div>
-
-                <div class="spectrum-Form-item" style="display:none;" id="textField">
+    </div>
+    <div class="formoption">
+        <div class="spectrum-Form-item" style="display:none;" id="textField">
                     <label for="teamText" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Name on Jersey (12 characters max)</label><br>
                     <input type="text" id="teamText" name="teamText">
                     </div>
-                    <label for="timezone" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Timezone</label><br>
+    </div>
+
+    <div class="formoption">
+        <label for="timezone" class="spectrum-FieldLabel spectrum-FieldLabel--sizeM">Timezone</label><br>
                 <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" name="image_mode" id="timezone">
                     <option class="spectrum-Picker-label" value="Eastern">Eastern Standard Time</option>
                     <option class="spectrum-Picker-label" value="Central">Central Standard Time</option>
                     <option class="spectrum-Picker-label" value="Mountain">Mountain Standard Time</option>
                     <option class="spectrum-Picker-label" value="Pacific">Pacific Standard Time</option>
                 </select>
-
-         <div id="preseasonitem">
-            <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="preseason" name="preseason">
-            </select><br>               
-        </div>
+    </div>
+    <div class="formoption" id="preseasonitem">
+        <select class="spectrum-Picker spectrum-Picker--sizeS" aria-haspopup="listbox" id="preseason" name="preseason">
+            </select><br>  
             <div style="display:block"><small id="preseasonsplash"></small></div>
+    </div>
 
         <button class="spectrum-Button spectrum-Button--outline spectrum-Button--primary spectrum-Button--sizeS" id="generate" style="margin-top:2em;display:none;">
             <span class="spectrum-Button-label">Generate Schedule</span>
           </button>
- <hr>
+ <hr class="formoption">
     <div style="display:block; margin-top:2em;">
             <h2>Nerd Stuff</h2>
             <span class="debuglink" id="reload">Reload</span>

@@ -4,22 +4,27 @@
 const fs = require("fs");
 const https = require('https');
 const path = require("path");
-const csv=require('csvtojson')
+const csv=require('csvtojson');
 
-function getKeyByValue(object, value) {
-    return Object.keys(object).find(key => object[key] === value);
-  }
-  
+
+/**
+ * Replaces ' with \' to prevent string breaking in jsx.
+ * @param {string} str String that needs apostrophes escaped.
+ * @returns {string} Escaped string
+ */
+function escapeStr(str){
+    return str.replace(/'/g, "&apr;"); // Use our own code. I'm going insane. <3
+}
+
   (function () {
     'use strict';
-
     var csInterface = new CSInterface();
     
     function init() {
-                
         initColors();
                 
         $("#generate").click(async function () {
+            // Stop the POST request. We don't need that here.
             event.preventDefault();
             
             // The team the user has chosen.
@@ -45,52 +50,57 @@ function getKeyByValue(object, value) {
                 selectedTeam.teamNumber= $("#teamNumber").text();
             }
 
+            // jQuery should keep this from happening, but just in case. 
             if($('input[name="teamText"]').val()== "" && $("#image_mode").val()== "Back") return alert("We cannot generate a schedule with a back facing player until the jersey name blank is filled out.")
 
-                csInterface.evalScript(`changeColour("Primary", "${selectedTeam.col1[0]}", "${selectedTeam.col1[1]}","${selectedTeam.col1[2]}","${selectedTeam.col1[3]}")`);
-                csInterface.evalScript(`changeColour("Secondary", "${selectedTeam.col2[0]}", "${selectedTeam.col2[1]}","${selectedTeam.col2[2]}","${selectedTeam.col2[3]}")`);
-                csInterface.evalScript(`changeColour("Tertiary", "${selectedTeam.col3[0]}", "${selectedTeam.col3[1]}","${selectedTeam.col3[2]}","${selectedTeam.col3[3]}")`);
+            // Change the value of the swatches. Does each one separately because the arguments would be 4 miles long otherwise.
+            csInterface.evalScript(`changeColour("Primary", "${selectedTeam.col1[0]}", "${selectedTeam.col1[1]}","${selectedTeam.col1[2]}","${selectedTeam.col1[3]}")`);
+            csInterface.evalScript(`changeColour("Secondary", "${selectedTeam.col2[0]}", "${selectedTeam.col2[1]}","${selectedTeam.col2[2]}","${selectedTeam.col2[3]}")`);
+            csInterface.evalScript(`changeColour("Tertiary", "${selectedTeam.col3[0]}", "${selectedTeam.col3[1]}","${selectedTeam.col3[2]}","${selectedTeam.col3[3]}")`);
             
-                const teamPath = path.join(__dirname, `./CSV/${selectedTeam.name}.csv`);
-                csInterface.evalScript(`addSchedule("${teamPath}")`);
+            // Sets the csv for their selected team's schedule. This sets the data source in the Data Merge panel.
+            const teamPath = path.join(__dirname, `./CSV/${selectedTeam.name}.csv`);
+            csInterface.evalScript(`addSchedule("${teamPath}")`);
 
-                var fbObject={
-                    name:       selectedTeam.name,
-                    preseason:  $('#preseason').find(":selected").val() == "on" ? true : false,
-                    text:       $('input[name="teamText"]').val(), // Swich that default to something else?
-                    type:       $('select#image_mode option:selected').val(),
-                    number:     $('input[name="teamNumber"]').val()== "" ? (new Date().getFullYear() % 100) : $('input[name="teamNumber"]').val() // Grabs the last 2 digits of the current Year
+            // The collective information that we need for the photoshop and data merge part of this. 
+            var fbObject={
+                name:       selectedTeam.name,
+                preseason:  $('#preseason').find(":selected").val() == "on" ? true : false,
+                text:       escapeStr($('input[name="teamText"]').val()), // Escape the string for photoshop's sake.
+                type:       $('select#image_mode option:selected').val(),
+                number:     $('input[name="teamNumber"]').val()== "" ? (new Date().getFullYear() % 100) : $('input[name="teamNumber"]').val() // Grabs the last 2 digits of the current Year
+            }
+
+            // Fetching the CSV, turning it into JSON.
+            let jsonObj = await csv().fromFile(path.join(__dirname, "CSV", `${fbObject.name}.csv`));
+
+            // What timezone did they want? And should preseason be in this?
+            let tz = $("#timezone").val();                
+            let preEnabled= fbObject.preseason == true ? "with" : "without";
+            var mergeIndex;
+            // Iterate through our JSON and set with row of data that matches
+            jsonObj.forEach((row, i) => {
+                if (row["time zone"] == tz && row.preseason == preEnabled) {
+                    mergeIndex = i
+                    return;
                 }
+            });
 
-                let jsonObj = await csv().fromFile(path.join(__dirname, "CSV", `${fbObject.name}.csv`));
+            console.log(JSON.stringify(`~/Downloads/${fbObject.name} ${fbObject.number}.pdf`))
+            // Big old string of arguments for talktoPhotoshop
+            const args = [
+                path.join(__dirname, "jsx", "exec_photoshop.jsx"),
+                JSON.stringify(fbObject),
+                path.join(__dirname, "actions") ,
+                path.join(__dirname, "templates"),
+                preEnabled,
+                mergeIndex,
+                `~/Downloads/${fbObject.name} ${fbObject.number}.pdf`,
+                teamPath
+            ];
 
-                let tz = $("#timezone").val();                
-                let preEnabled= fbObject.preseason == true ? "with" : "without";
-
-                var mergeIndex;
-                jsonObj.forEach((row, i) => {
-                    if (row["time zone"] == tz && row.preseason == preEnabled) {
-                        mergeIndex = i
-                        return;
-                    }
-                })
-                
-                    var dest= `~/Downloads/${fbObject.name} ${fbObject.number}.pdf`;
-                    var csvdest= path.join(__dirname, "CSV", `${fbObject.name}.csv`);
-                    
-                const args = [
-                    path.join(__dirname, "jsx", "exec_photoshop.jsx"),
-                    JSON.stringify(fbObject),
-                    path.join(__dirname, "actions") ,
-                    path.join(__dirname, "templates"),
-                    preEnabled,
-                    mergeIndex,
-                    dest,
-                    csvdest
-                ];
-
-                const evalThis = `talkToPhotoshop('${args.join("', '")}')`;
-                csInterface.evalScript(evalThis);
+            const evalThis = `talkToPhotoshop('${args.join("', '")}')`;
+            csInterface.evalScript(evalThis);
 
 
 

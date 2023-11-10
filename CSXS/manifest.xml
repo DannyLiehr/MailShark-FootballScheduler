@@ -68,26 +68,26 @@
 					<Menu>Football Scheduler</Menu>
 					<Geometry>
 						<Size>
-							<Height>1000</Height>
-							<Width>300</Width>
+							<Height>450</Height>
+							<Width>400</Width>
 						</Size>
-                    <!--<MinSize>
-                            <Height>550</Height>
+                    <MinSize>
+                            <Height>250</Height>
                             <Width>400</Width>
                         </MinSize>
                         <MaxSize>
-                            <Height>550</Height>
+                            <Height>600</Height>
                             <Width>400</Width>
-                        </MaxSize>-->
+                        </MaxSize>
                         
 					</Geometry>
 					<Icons>
-						<Icon Type="Normal">./icons/iconNormal.png</Icon>
-						<Icon Type="RollOver">./icons/iconRollover.png</Icon>
-						<Icon Type="Disabled">./icons/iconDisabled.png</Icon>
-						<Icon Type="DarkNormal">./icons/iconDarkNormal.png</Icon>
-						<Icon Type="DarkRollOver">./icons/iconDarkRollover.png</Icon>
-					</Icons>					
+						<Icon Type="Normal">./iconNormal.png</Icon>
+						<Icon Type="RollOver">./iconRollover.png</Icon>
+						<Icon Type="Disabled">./iconDisabled.png</Icon>
+						<Icon Type="DarkNormal">./iconDarkNormal.png</Icon>
+						<Icon Type="DarkRollOver">./iconDarkRollover.png</Icon>
+					</Icons>				
 				</UI>
 			</DispatchInfo>
 		</Extension>

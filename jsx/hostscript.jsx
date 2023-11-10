@@ -38,6 +38,7 @@ function addSchedule(path){
     }
 }
 
+
 /**
     * Launches Photoshop, makes actions happen, places the file and merges out the document.
     @param {string} jsxpath Path to exec_photoshop.jsx
@@ -50,7 +51,9 @@ function addSchedule(path){
     @param {string} csv Path to "CSV" directory
 
 */
+
 function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeIndex, dest, csv) {
+    $.writeln(fbOptions);
     fbOptions = JSON.parse(fbOptions);
         // Check for what template is being used. If the template and image choice is incompatible, don't let the photoshop talk start.
         var links= app.activeDocument.links;
@@ -178,3 +181,4 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
         //
 
 }
+// talkToPhotoshop("/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/jsx/exec_photoshop.jsx", '{"name":"Philadelphia Eagles","preseason":false,"text":"Danny\'s","type":"Back","number":"96"}','/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/actions', '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/templates', 'true', '0', "~/Downloads/Cincinnati Bengals 96.pdf", '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/CSV/Houston Texans.csv')

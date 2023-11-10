@@ -4,6 +4,15 @@ var actset; // Which Action file to use.
 var fileSelect; // Which Photoshop Template to grab.
 var targetLayer; // Which layer to make the active/selected one for editing.
 
+/**
+ * Removes backslashes so they're not put on the jersey.
+ * @param {string} str String that needs backslashes removed.
+ * @returns {string} Unescaped string
+ */
+function unEscapeStr(str){
+    return str.replace("&apr;", "'");
+}
+
 // For determining the above factors. Case = Image mode
 switch(argv4){
     case "Front":
@@ -45,7 +54,7 @@ if (argv4=="Helmet"){
         targetLayer = app.activeDocument.artLayers.getByName("EDIT TEXT - NUMBER");
         targetLayer.textItem.contents= argv7;
         targetLayer = app.activeDocument.artLayers.getByName("- EDIT TEXT - TEAM");
-        targetLayer.textItem.contents = argv3;
+        targetLayer.textItem.contents = unEscapeStr(argv3);
     } else {
         // Front Facing player
         app.activeDocument.activeLayer = app.activeDocument.artLayers.getByName("Player");  

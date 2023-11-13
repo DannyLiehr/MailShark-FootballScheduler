@@ -23,7 +23,7 @@ function escapeStr(str){
     function init() {
         initColors();
                 
-        $("#generate").click(async function () {
+        $("#generate").click(async function(){
             // Stop the POST request. We don't need that here.
             event.preventDefault();
             
@@ -65,41 +65,56 @@ function escapeStr(str){
             // The collective information that we need for the photoshop and data merge part of this. 
             var fbObject={
                 name:       selectedTeam.name,
-                preseason:  $('#preseason').find(":selected").val() == "on" ? true : false,
+                preseason:  $('#preseason').find(":selected").val() == "on" ? "with" : "without",
                 text:       escapeStr($('input[name="teamText"]').val()), // Escape the string for photoshop's sake.
                 type:       $('select#image_mode option:selected').val(),
                 number:     $('input[name="teamNumber"]').val()== "" ? (new Date().getFullYear() % 100) : $('input[name="teamNumber"]').val() // Grabs the last 2 digits of the current Year
             }
 
+            // return console.table(fbObject)
             // Fetching the CSV, turning it into JSON.
             let jsonObj = await csv().fromFile(path.join(__dirname, "CSV", `${fbObject.name}.csv`));
 
             // What timezone did they want? And should preseason be in this?
             let tz = $("#timezone").val();                
-            let preEnabled= fbObject.preseason == true ? "with" : "without";
+            // let preEnabled= fbObject.preseason == true ? "with" : "without";
             var mergeIndex;
             // Iterate through our JSON and set with row of data that matches
             jsonObj.forEach((row, i) => {
-                if (row["time zone"] == tz && row.preseason == preEnabled) {
-                    mergeIndex = i
+                // debugger;
+                if (row["time zone"] == tz && row.preseason == fbObject.preseason) {
+                    debugger;
+                    mergeIndex = i + 1
                     return;
                 }
             });
+            
+            var dest;
+            // Naming Conventions
+            // Default:  Philadelphia-Eagles_Default-Front_Eastern-23
+            // Compact: New-York-Giants_Compact_Eastern
+            if ($("#image_mode").val()=="Helmet"){
+                // Compact image.
+                dest=`~/Downloads/${fbObject.name}_Compact_${tz}.pdf`;
+            } else {
+                // Default
+                dest=`~/Downloads/${fbObject.name}_Default-${$("#image_mode").val()}_${tz}-${fbObject.number}.pdf`;
+            }
 
-            console.log(JSON.stringify(`~/Downloads/${fbObject.name} ${fbObject.number}.pdf`))
             // Big old string of arguments for talktoPhotoshop
             const args = [
                 path.join(__dirname, "jsx", "exec_photoshop.jsx"),
                 JSON.stringify(fbObject),
                 path.join(__dirname, "actions") ,
                 path.join(__dirname, "templates"),
-                preEnabled,
+                fbObject.preseason,
                 mergeIndex,
-                `~/Downloads/${fbObject.name} ${fbObject.number}.pdf`,
+                dest,
                 teamPath
             ];
 
             const evalThis = `talkToPhotoshop('${args.join("', '")}')`;
+            console.log(evalThis);
             csInterface.evalScript(evalThis);
 
 

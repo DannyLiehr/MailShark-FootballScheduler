@@ -10,7 +10,7 @@ var targetLayer; // Which layer to make the active/selected one for editing.
  * @returns {string} Unescaped string
  */
 function unEscapeStr(str){
-    return str.replace("&apr;", "'");
+    return str.replace("&apr;", "'").replace("&bksl;", String.fromCharCode(92)).replace('&quo;', '"');
 }
 
 // For determining the above factors. Case = Image mode

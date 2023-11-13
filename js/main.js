@@ -13,7 +13,7 @@ const csv=require('csvtojson');
  * @returns {string} Escaped string
  */
 function escapeStr(str){
-    return str.replace(/'/g, "&apr;"); // Use our own code. I'm going insane. <3
+    return str.replace(/'/g, "&apr;").replace("\\", "&bksl;").replace(/"/g, '&quo;'); // Use our own code. I'm going insane. <3
 }
 
   (function () {

@@ -76,6 +76,7 @@
        
 </body>
 <script>
+    var defaultTert=[2,1,0,21];
     var footballTeams=[
         // Name: Visible to user, val: keyword to quickly grab the action (because I was a dummy and didn't attach the names to all actions), col1: colour 1 hex value, so on so forth.
         // DEFAULT: [100,36,0,74], [0,42,88,4], [2,1,0,21]
@@ -84,35 +85,37 @@
         {name:"Arizona Cardinals",      val: "Arizona Cardinals",       col1: [0,100,60,30],        col2: [30,30,30,100],       col3: [0,25,100,0],         tz: "Mountain"},
         {name:"Atlanta Falcons",        val: "Atlanta Falcons",         col1: [20,100,80,0],        col2: [0,20,20,100],        col3: [5,0,0,25],           tz: "Eastern"},
         {name:"Baltimore Ravens",       val: "Baltimore Ravens",        col1: [100,100,0,5],        col2: [70,50,50,100],       col3: [5, 0, 0, 25],        tz: "Eastern"}, // Switch sheen effect on thiis one!
-        {name:"Buffalo Bills",          val: "Buffalo Bills",           col1: [100, 60, 0, 20],     col2: [10, 100, 100, 0],    col3: [2,1,0,21],           tz: "Eastern"},
+        {name:"Buffalo Bills",          val: "Buffalo Bills",           col1: [100, 60, 0, 20],     col2: [10, 100, 100, 0],    col3: defaultTert,           tz: "Eastern"},
         {name:"Carolina Panthers",      val: "Carolina Panthers",       col1: [100, 10, 0, 5],      col2: [100, 40, 0, 100],    col3: [0, 0, 0, 20],        tz: "Eastern"},
-        {name:"Chicago Bears",          val: "Chicago Bears",           col1: [100, 60, 0, 80],     col2: [0, 75, 100, 0],      col3: [2,1,0,21],           tz: "Central"},
-        {name:"Cincinnati Bengals",     val: "Cincinnati Bengals",      col1: [0, 85, 100, 0],      col2: [70, 50, 50, 100],    col3: [2,1,0,21],           tz: "Eastern"},
-        {name:"Cleveland Browns",       val: "Cleveland Browns",        col1: [1, 33, 85, 94],      col2: [2, 93, 100, 0],      col3: [0,0,0,0],            tz: "Eastern"},
+        {name:"Chicago Bears",          val: "Chicago Bears",           col1: [100, 60, 0, 80],     col2: [0, 75, 100, 0],      col3: defaultTert,           tz: "Central"},
+        {name:"Cincinnati Bengals",     val: "Cincinnati Bengals",      col1: [0, 85, 100, 0],      col2: [70, 50, 50, 100],    col3: defaultTert,           tz: "Eastern"},
+        // {name:"Cleveland Browns",       val: "Cleveland Browns",        col1: [1, 33, 85, 94],      col2: [2, 93, 100, 0],      col3: [0,0,0,0],            tz: "Eastern"},
+        {name:"Cleveland Browns",       val: "Cleveland Browns",        col1: [1, 33, 85, 94],      col2: defaultTert,          col3: [0,93,100,1],            tz: "Eastern"},
         {name:"Dallas Cowboys",         val: "Dallas Cowboys",          col1: [100, 64, 0, 42],     col2: [15, 0, 1, 41],       col3: [11, 3, 0, 41],       tz: "Central"},
-        {name:"Denver Broncos",         val: "Denver Broncos",          col1: [0, 75, 98, 0],       col2: [81, 45, 0, 75],      col3: [2,1,0,21],           tz: "Mountain"},
+        {name:"Denver Broncos",         val: "Denver Broncos",          col1: [0, 75, 98, 0],       col2: [81, 45, 0, 75],      col3: defaultTert,           tz: "Mountain"},
         {name:"Detroit Lions",          val: "Detroit Lions",           col1: [100, 45, 0, 10],     col2: [3, 0, 0, 32],        col3: [0, 0, 0, 100],       tz: "Eastern"},
-        {name:"Green Bay Packers",      val: "Green Bay Packers",       col1: [79, 34, 62, 84],     col2: [0, 31, 98, 0],       col3: [2,1,0,21],           tz: "Central"},
-        {name:"Houston Texans",         val: "Houston Texans",          col1: [100, 60, 0, 80],     col2: [0, 100, 79, 20],     col3: [2,1,0,21],           tz: "Central"},
-        {name:"Indianapolis Colts",     val: "Indianapolis Colts",      col1: [100, 85, 30, 16],    col2: [2,1,0,21],           col3: [2,1,0,21],           tz: "Eastern"},
-        {name:"Jacksonville Jaguars",   val: "Jacksonville Jaguars",    col1: [100, 9, 29, 47],     col2: [0, 28, 98, 11],      col3: [2,1,0,21],           tz: "Eastern"},
-        {name:"Kansas City Chiefs",     val: "Kansas City Chiefs",      col1: [0, 92, 77, 22],      col2: [0, 31, 98, 0],       col3: [2,1,0,21],           tz: "Central"},
-        {name:"Las Vegas Raiders",      val: "Las Vegas Raiders",       col1: [0, 0, 0, 100],       col2: [50, 38, 32, 2],      col3: [2,1,0,21],           tz: "Pacific"},
-        {name:"Los Angeles Chargers",   val: "Los Angeles Chargers",    col1: [90, 40, 0, 0],       col2: [0, 25, 100, 0],      col3: [2,1,0,21],           tz: "Pacific"},
+        {name:"Green Bay Packers",      val: "Green Bay Packers",       col1: [79, 34, 62, 84],     col2: [0, 23, 79, 8],       col3: defaultTert,           tz: "Central"},
+        {name:"Houston Texans",         val: "Houston Texans",          col1: [100, 60, 0, 80],     col2: [0, 100, 79, 20],     col3: defaultTert,           tz: "Central"},
+        {name:"Indianapolis Colts",     val: "Indianapolis Colts",      col1: [100, 85, 30, 16],    col2: [2,1,0,21],           col3: defaultTert,           tz: "Eastern"},
+        {name:"Jacksonville Jaguars",   val: "Jacksonville Jaguars",    col1: [100, 9, 29, 47],     col2: [0, 28, 98, 11],      col3: defaultTert,           tz: "Eastern"},
+        {name:"Kansas City Chiefs",     val: "Kansas City Chiefs",      col1: [0, 92, 77, 22],      col2: [0, 31, 98, 0],       col3: defaultTert,           tz: "Central"},
+        {name:"Las Vegas Raiders",      val: "Las Vegas Raiders",       col1: [0, 0, 0, 100],       col2: [50, 38, 32, 2],      col3: defaultTert,           tz: "Pacific"},
+        {name:"Los Angeles Chargers",   val: "Los Angeles Chargers",    col1: [90, 40, 0, 0],       col2: [0, 25, 100, 0],      col3: defaultTert,           tz: "Pacific"},
         {name:"Los Angeles Rams",       val: "Los Angeles Rams",        col1: [100, 90, 10, 2],     col2: [0, 60, 100, 0],      col3: [0, 42, 100, 0],      tz: "Pacific"},
         {name:"Miami Dolphins",         val: "Miami Dolphins",          col1: [100, 61, 35, 50],    col2: [100, 21, 42, 2],     col3: [0, 73, 98, 0],       tz: "Eastern"},
-        {name:"Minnesota Vikings",      val: "Minnesota Vikings",       col1: [82, 100, 0, 12],     col2: [0, 23, 91, 0],       col3: [2,1,0,21],           tz: "Central"},
-        {name:"New England Patriots",   val: "New England Patriots",    col1: [100, 65, 0, 60],     col2: [10, 100, 100, 0],    col3: [3, 0, 0, 32],        tz: "Eastern"},
-        {name:"New Orleans Saints",     val: "New Orleans Saints",      col1: [18, 23, 49, 0],      col2: [0, 0, 0, 100],       col3: [2,1,0,21],           tz: "Central"},
+        {name:"Minnesota Vikings",      val: "Minnesota Vikings",       col1: [82, 100, 0, 12],     col2: [0, 23, 91, 0],       col3: defaultTert,           tz: "Central"},
+        {name:"New England Patriots",   val: "New England Patriots",    col1: [100, 65, 0, 60],     col2: [20,95,86,9],    col3: [3, 0, 0, 32],        tz: "Eastern"},
+        {name:"New Orleans Saints",     val: "New Orleans Saints",      col1: [18, 23, 49, 0],      col2: [0, 0, 0, 100],       col3: defaultTert,           tz: "Central"},
         {name:"New York Giants",        val: "New York Giants",         col1: [20, 100, 80, 0],     col2: [100, 75, 0, 30],     col3: [5, 0, 0, 60],        tz: "Eastern"},
-        {name:"New York Jets",          val: "New York Jets",           col1: [87, 41, 78, 37],     col2: [0, 0, 0, 100],       col3: [2,1,0,21],           tz: "Eastern"},
+        {name:"New York Jets",          val: "New York Jets",           col1: [87, 41, 78, 37],     col2: [0, 0, 0, 100],       col3: defaultTert,           tz: "Eastern"},
         {name:"Philadelphia Eagles",    val: "Philadelphia Eagles",     col1: [100, 0, 30, 70],     col2: [10, 0, 0, 20],       col3: [70, 50, 50, 100],    tz: "Eastern"},
-        {name:"Pittsburgh Steelers",    val: "Pittsburgh Steelers",     col1: [0, 30, 75, 0],       col2: [100, 40, 0, 100],    col3: [2,1,0,21],           tz: "Eastern"},
-        {name:"San Francisco 49ers",    val: "San Fran 49ers",          col1: [7, 100, 82, 26],     col2: [0, 25, 56, 51],      col3: [2,1,0,21],           tz: "Pacific"},
-        {name:"Seattle Seahawks",       val: "Seattle Seahawks",        col1: [100, 65, 0, 60],     col2: [57, 0, 84, 0],       col3: [5, 0, 0, 30],        tz: "Pacific"},
+        {name:"Pittsburgh Steelers",    val: "Pittsburgh Steelers",     col1: [0, 30, 75, 0],       col2: [100, 40, 0, 100],    col3: defaultTert,           tz: "Eastern"},
+        {name:"San Francisco 49ers",    val: "San Fran 49ers",          col1: [7, 100, 82, 26],     col2: [0, 25, 56, 51],      col3: defaultTert,           tz: "Pacific"},
+        {name:"Seattle Seahawks",       val: "Seattle Seahawks",        col1: [100, 65, 0, 60],     col2: [5, 0, 0, 30],       col3: [57, 0, 84, 0],        tz: "Pacific"},
+        // {name:"Seattle Seahawks",       val: "Seattle Seahawks",        col1: [100, 65, 0, 60],     col2: [57, 0, 84, 0],       col3: [5, 0, 0, 30],        tz: "Pacific"},
         {name:"Tampa Bay Buccaneers",   val: "Tampa Bay Buccaneers",    col1: [2, 100, 85, 6],      col2: [65, 62, 67, 62],     col3: [0, 60, 100, 0],      tz: "Eastern"},
         {name:"Tennessee Titans",       val: "Tennesee Titans",         col1: [100, 76, 12, 70],    col2: [45, 34, 34, 0],      col3: [48, 29, 26, 76],     tz: "Eastern"}, // I misspelled it on the action.
-        {name:"Washington Commanders",  val: "Washington Commanders",   col1: [36, 92, 85, 58],     col2: [0, 32, 99, 0],       col3: [2,1,0,21],           tz: "Eastern"}
+        {name:"Washington Commanders",  val: "Washington Commanders",   col1: [36, 92, 85, 58],     col2: [0, 32, 99, 0],       col3: defaultTert,           tz: "Eastern"}
     ]
     for (i in footballTeams){
         $('#teams').append(`<option class="spectrum-Picker-label" style="width: 35.9453px;">${footballTeams[i].name}</option>`);
@@ -168,12 +171,16 @@
        }
     }
 
+    function updateTeams(){
+        let result = footballTeams.filter((team) => team.name == $("#teams").val());
+        $("#timezone").val(result[0].tz).change();
+    }
+
     $("#teamNumber").on("keyup", function () {
         $(this).val($(this).val().replace(/[^0-9.]/g, '').replace(/(..*?)/g, '$1').slice(0,2));
     });
     $("#teams").change(function(){
-        let result = footballTeams.filter((team) => team.name == $("#teams").val());
-        $("#timezone").val(result[0].tz).change();
+        updateTeams();
     });
     $("#teamText").on("change paste keyup keydown", function(){
         $(this).val($(this).val().slice(0,12));
@@ -182,7 +189,7 @@
        verifySubmit();
     });
     verifySubmit();
-
+    updateTeams();
 </script>
 
 </html>

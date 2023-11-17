@@ -52,7 +52,18 @@ function escapeStr(str){
 
             // jQuery should keep this from happening, but just in case. 
             if($('input[name="teamText"]').val()== "" && $("#image_mode").val()== "Back") return alert("We cannot generate a schedule with a back facing player until the jersey name blank is filled out.")
-
+            // The collective information that we need for the photoshop and data merge part of this. 
+            var fbObject={
+                name:       selectedTeam.name,
+                preseason:  $('#preseason').find(":selected").val() == "on" ? "with" : "without",
+                text:       escapeStr($('input[name="teamText"]').val()), // Escape the string for photoshop's sake.
+                type:       $('select#image_mode option:selected').val(),
+                number:     $('input[name="teamNumber"]').val()== "" ? (new Date().getFullYear() % 100) : $('input[name="teamNumber"]').val() // Grabs the last 2 digits of the current Year
+            }
+            // path.join(__dirname, "templates")
+            // return console.log(JSON.stringify(fbObject), path.join(__dirname, "templates"));
+            csInterface.evalScript(`openDoc('${JSON.stringify(fbObject)}', "${path.join(__dirname, 'templates')}")`);
+            // csInterface.evalScript(`openDoc()`);
             // Change the value of the swatches. Does each one separately because the arguments would be 4 miles long otherwise.
             csInterface.evalScript(`changeColour("Primary", "${selectedTeam.col1[0]}", "${selectedTeam.col1[1]}","${selectedTeam.col1[2]}","${selectedTeam.col1[3]}")`);
             csInterface.evalScript(`changeColour("Secondary", "${selectedTeam.col2[0]}", "${selectedTeam.col2[1]}","${selectedTeam.col2[2]}","${selectedTeam.col2[3]}")`);
@@ -62,14 +73,6 @@ function escapeStr(str){
             const teamPath = path.join(__dirname, `./CSV/${selectedTeam.name}.csv`);
             csInterface.evalScript(`addSchedule("${teamPath}")`);
 
-            // The collective information that we need for the photoshop and data merge part of this. 
-            var fbObject={
-                name:       selectedTeam.name,
-                preseason:  $('#preseason').find(":selected").val() == "on" ? "with" : "without",
-                text:       escapeStr($('input[name="teamText"]').val()), // Escape the string for photoshop's sake.
-                type:       $('select#image_mode option:selected').val(),
-                number:     $('input[name="teamNumber"]').val()== "" ? (new Date().getFullYear() % 100) : $('input[name="teamNumber"]').val() // Grabs the last 2 digits of the current Year
-            }
 
             // return console.table(fbObject)
             // Fetching the CSV, turning it into JSON.
@@ -95,10 +98,10 @@ function escapeStr(str){
             // Compact: New-York-Giants_Compact_Eastern
             if ($("#image_mode").val()=="Helmet"){
                 // Compact image.
-                dest=`~/Downloads/${fbObject.name}_Compact_${tz}.pdf`;
+                dest=`${fbObject.name}_Compact_${tz}.pdf`;
             } else {
                 // Default
-                dest=`~/Downloads/${fbObject.name}_Default-${$("#image_mode").val()}_${tz}-${fbObject.number}.pdf`;
+                dest=`${fbObject.name}_Default-${$("#image_mode").val()}_${tz}-${fbObject.number}.pdf`;
             }
 
             // Big old string of arguments for talktoPhotoshop
@@ -107,10 +110,9 @@ function escapeStr(str){
                 JSON.stringify(fbObject),
                 path.join(__dirname, "actions") ,
                 path.join(__dirname, "templates"),
-                fbObject.preseason,
                 mergeIndex,
-                dest,
-                teamPath
+                teamPath,
+                dest
             ];
 
             const evalThis = `talkToPhotoshop('${args.join("', '")}')`;

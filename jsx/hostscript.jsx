@@ -2,8 +2,29 @@
 /*global $, Folder*/
 #include "json2.js";
 
+/**
+ * Open
+ * @param {string} fbOptions 
+ * @param {*} playDir 
+ */
+// (fbOptions, playDir)
+function openDoc(fbOptions, playDir){
+    // alert("Opening doc!")
+    try{
+      fbOptions = JSON.parse(fbOptions);
+        if(fbOptions.type == "Helmet"){
+            // Open compact template
+            app.open(File(playDir + "/compact.indt"));
+        } else {
+            // Open default template
+            app.open(File(playDir + "/default.indt"));
+        }  
+    } catch(e){
+        alert(e);
+    }
+}
 
-// three functions because the arguments on mainjs would look insane
+
 /**
     * Changes the swatch colours on the document.
     @param {string} c Cyan
@@ -47,12 +68,12 @@ function addSchedule(path){
     @param {string} playDir Path to "templates" directory
     @param {string} preseas Whether or not preseason is enabled
     @param {string} mergeIndex Which row of the CSV to merge out into a single page document
-    @param {string} dest The user's downloads folder to save the PDF to
+    @param {string} dest The user's filename to save the PDF as
     @param {string} csv Path to "CSV" directory
 
 */
 
-function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeIndex, dest, csv) {
+function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, mergeIndex, csv, dest) {
     fbOptions = JSON.parse(fbOptions);
         // Check for what template is being used. If the template and image choice is incompatible, don't let the photoshop talk start.
         var links= app.activeDocument.links;
@@ -78,9 +99,13 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
            file.close();
            // Create a new BridgeTalk object 
            var bt = new BridgeTalk();
-   
-           var curDate = new Date().valueOf();
-   
+           // Get active document
+            var doc = app.activeDocument;
+
+            // Don't give them the choice; they MUST save.
+            doc.save();
+            filePath= doc.filePath;
+        //    var curDate = new Date().valueOf();
            var params = "\
                var argv1 = '" + fbOptions.name + "' \
                var argv2 = '" + fbOptions.preseason + "' \
@@ -90,7 +115,7 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
                var argv6 = '" + playDir +"' \
                var argv7 = '" + fbOptions.number +"' \
                var argv8 = \"" + playDir  +"\" \
-               var argv9 = \"" + curDate +"\" \
+               var argv9 = \"" + filePath +"\" \
            ";
            // Target Photoshop
            bt.target = "photoshop";      
@@ -102,9 +127,10 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
                for (var i = 0; i < links.length; i++) {
                 links[i].update();
                    if (links[i].label == "fbPlayer" || links[i].label == "helmet"){
-                       var fbName= "~/Downloads/FootballPlayer " + fbOptions.name +" "+ fbOptions.number + ".psd"
+                       var fbName= filePath + "/" + fbOptions.name +" "+ fbOptions.number + ".psd";
+                       var label= links[i].label;
                        links[i].relink(new File(fbName));
-                       
+                       links[i].label= label;
                    }
                    
                }
@@ -126,23 +152,14 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
                }
    
    
-                   // Get active document
-                   var doc = app.activeDocument;
-   
-                   // Don't give them the choice; they MUST save.
-                   alert("Please save your file in case of later use, and so the data merge may commence.");
-                   doc.save();
-   
-                   var filePath= doc.fullName;
+
    
                    try {
                     
                         // File paths
-                        var source = File(filePath);
-                        var destination = File(dest);
                         var sourceData = File(csv);
                         // Open the document
-                        var doc = app.open(source);
+                        // var doc = app.open(source);
         
                         // Data merge settings
                         doc.dataMergeProperties.selectDataSource(sourceData);
@@ -153,10 +170,12 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
         
         
                         // Perform merge.
-                        doc.dataMergeProperties.exportFile(destination, "[High Quality Print]",);
-                        alert("Your PDF has been merged and saved to your Downloads folder. Please move this PDF to your active project folder before placing it.")
+                        // ~/Library/CloudStorage/OneDrive-SharedLibraries-MailShark/Prepress%20Team%20-%20Documents/General/Artist%20Folders/Danny's_Files/Active%20Projects/!!_Internal/NFL%20Stuff/Test%20Run
+                        var finalFile= File(filePath + "/"+ dest)
+                        doc.dataMergeProperties.exportFile(finalFile, "[High Quality Print]",);
+                        alert("Your PDF has been merged and saved to the folder you saved this document in.")
                    } catch (e) {
-                        alert(e);
+                        alert("Oops! " + e);
                    }
    
            };
@@ -171,6 +190,8 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
         bt.onError = function (err) {
             alert("Oops! Error: " + err.body);
         }
+
+        
         // Bombs away...
         alert("Photoshop is about to open to generate a schedule image. You may need to click on it on the dock to continue generating a schedule.");
         bt.send();
@@ -178,24 +199,11 @@ function talkToPhotoshop(jsxPath, fbOptions, actDir, playDir, preseas, mergeInde
 
 }
 
+// // jsxPath, fbOptions, actDir, playDir, preseas, mergeIndex, dest, csv
 // talkToPhotoshop(
-//     '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/jsx/exec_photoshop.jsx',
-//     '{"name":"Arizona Cardinals","preseason":false,"text":"","type":"Front","number":23}',
-//     '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/actions',
-//     '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/templates',
-//     'without',
-//     '1',
-//     '~/Downloads/Arizona Cardinals_Default-Front_Mountain-23.pdf',
-//     '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/CSV/Arizona Cardinals.csv')
-
-
-
-// talkToPhotoshop(
-//     "/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/jsx/exec_photoshop.jsx", 
-//     '{"name":"Philadelphia Eagles","preseason":false,"text":"FuckAdobe","type":"Back","number":"96"}',
+//     '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/jsx/exec_photoshop.jsx', 
+//     '{"name":"Arizona Cardinals","preseason":"without","text":"","type":"Front","number":23}', 
 //     '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/actions', 
 //     '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/templates', 
-//     'true', 
-//     '7', 
-//     "~/Downloads/Make the fucking pdf.pdf", 
-//     '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/CSV/Houston Texans.csv')
+//     '2', 
+//     '/Library/Application Support/Adobe/CEP/extensions/FootballScheduler/CSV/Arizona Cardinals.csv')
